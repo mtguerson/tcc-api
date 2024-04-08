@@ -6,3 +6,96 @@ datasource db {
   provider = "sqlite"
   url      = env("DATABASE_URL")
 }
+
+model User {
+  id       String @id @default(uuid())
+  name     String
+  email    String @unique
+  password String
+  cpf      String @unique
+
+  creditCards      CreditCard[]
+  categories       Category[]
+  checkingAccounts CheckingAccount[]
+
+  @@map("users")
+}
+
+model CreditCard {
+  id          String   @id @default(uuid())
+  name        String
+  lastDigits  String   @map("last_digits")
+  limit       Decimal
+  closingDate DateTime @map("closing_date")
+  invoice     Decimal
+  userId      String   @map("user_id")
+
+  user     User      @relation(fields: [userId], references: [id])
+  expenses Expense[]
+
+  @@map("credit_cards")
+}
+
+model Category {
+  id     String @id @default(uuid())
+  name   String
+  userId String @map("user_id")
+
+  expenses Expense[]
+
+  user User @relation(fields: [userId], references: [id])
+
+  @@map("categories")
+}
+
+model Expense {
+  id           String   @id @default(uuid())
+  name         String
+  date         DateTime
+  value        Decimal
+  creditCardId String   @map("credit_card_id")
+  categoryId   String   @map("category_id")
+
+  creditCards CreditCard @relation(fields: [creditCardId], references: [id])
+  categories  Category   @relation(fields: [categoryId], references: [id])
+
+  @@map("expenses")
+}
+
+model CheckingAccount {
+  id             String  @id @default(uuid())
+  userId         String  @map("user_id")
+  account        String
+  Agency         String
+  Bank           String
+  Balance        Decimal
+  maintenanceFee Decimal @map("maintenance_fee")
+
+  user   User    @relation(fields: [userId], references: [id])
+  inputs Input[]
+
+  @@map("checking_accounts")
+}
+
+model Salary {
+  id         String   @id @default(uuid())
+  value      Decimal
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+  inputs     Input[]
+
+  @@map("salaries")
+}
+
+model Input {
+  id                String  @id @default(uuid())
+  name              String
+  value             Decimal
+  checkingAccountId String  @map("checking_account_id")
+  salaryId          String  @map("salary_id")
+
+  checkingAccount CheckingAccount @relation(fields: [checkingAccountId], references: [id])
+  salary          Salary          @relation(fields: [salaryId], references: [id])
+
+  @@map("inputs")
+}
