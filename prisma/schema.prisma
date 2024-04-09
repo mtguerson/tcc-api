@@ -65,10 +65,11 @@ model Expense {
 model CheckingAccount {
   id             String  @id @default(uuid())
   userId         String  @map("user_id")
+  name           String
   account        String
-  Agency         String
-  Bank           String
-  Balance        Decimal
+  agency         String
+  bank           String
+  balance        Decimal
   maintenanceFee Decimal @map("maintenance_fee")
 
   user   User    @relation(fields: [userId], references: [id])
