@@ -5,6 +5,6 @@ const createCheckingAccountController = new CreateCheckingAccountController();
 
 const checkingAccountRoutes = Router();
 
-checkingAccountRoutes.post("/", createCheckingAccountController.handle);
+checkingAccountRoutes.post("/create", createCheckingAccountController.handle);
 
 export { checkingAccountRoutes };

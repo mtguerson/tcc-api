@@ -12,18 +12,18 @@ export class CreateCheckingAccountUseCase {
     });
 
     if (!userIdExists) {
-      throw new AppError('User not found', 404);
+      throw new AppError('User not found');
     }
 
     const checkingAccount = await prisma.checkingAccount.create({
       data: {
+        userId,
         name,
         account,
         agency,
         bank,
         balance,
-        maintenanceFee,
-        userId
+        maintenanceFee
       }
     });
 
