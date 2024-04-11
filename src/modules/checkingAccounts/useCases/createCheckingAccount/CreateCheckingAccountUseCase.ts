@@ -15,6 +15,17 @@ export class CreateCheckingAccountUseCase {
       throw new AppError('User not found');
     }
 
+    const checkingAccountNameExists = await prisma.checkingAccount.findFirst({
+      where: {
+        userId,
+        name
+      }
+    });
+
+    if (checkingAccountNameExists) {
+      throw new AppError('Checking account name already exists');
+    }
+
     const checkingAccount = await prisma.checkingAccount.create({
       data: {
         userId,
