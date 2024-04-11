@@ -1,7 +1,6 @@
 import { User } from "@prisma/client";
 import { prisma } from "../../../../prisma/client";
 import { AppError } from "../../../../errors/AppError";
-import { SignUpDto } from "../../dtos/signup";
 
 export class GetUserByPhoneUseCase {
   async execute({ phone }: { phone: string }): Promise<User> {
