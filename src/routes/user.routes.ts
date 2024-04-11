@@ -7,7 +7,7 @@ const getUserByPhoneController = new GetUserByPhoneController();
 
 const userRoutes = Router();
 
-userRoutes.post("/", createUserController.handle);
+userRoutes.post("/create", createUserController.handle);
 userRoutes.get("/:phone", getUserByPhoneController.handle);
 
 export { userRoutes };
