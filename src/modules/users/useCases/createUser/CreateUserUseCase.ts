@@ -21,6 +21,16 @@ export class CreateUserUseCase {
       }
     });
 
+    const cpfAlreadyTaken = await prisma.user.findUnique({
+      where: {
+        cpf
+      }
+    });
+
+    if (cpfAlreadyTaken) {
+      throw new AppError("Cpf already taken");
+    }
+
     if (phoneAlreadyTaken) {
       throw new AppError("Phone already taken");
     }
