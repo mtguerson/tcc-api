@@ -25,6 +25,10 @@ export class CreateUserUseCase {
       throw new AppError("Phone already taken");
     }
 
+    if (cpf.length !== 11) {
+      throw new AppError("Invalid CPF");
+    }
+
     const user = await prisma.user.create({
       data: {
         name,
