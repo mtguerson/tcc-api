@@ -1,10 +1,10 @@
 import { CheckingAccount } from "@prisma/client";
 import { AppError } from "../../../../errors/AppError";
 import { prisma } from "../../../../prisma/client";
-import { CreateCheckingAccountDTO } from "../../dtos/CreateCheckingAccountDTO";
+import { CheckingAccountDTO } from "../../dtos/CheckingAccountDTO";
 
 export class CreateCheckingAccountUseCase {
-  async execute({ userId, name, account, agency, bank, balance, maintenanceFee }: CreateCheckingAccountDTO): Promise<CheckingAccount> {
+  async execute({ userId, name, account, agency, bank, balance, maintenanceFee }: CheckingAccountDTO): Promise<CheckingAccount> {
     const userIdExists = await prisma.user.findUnique({
       where: {
         id: userId

@@ -1,4 +1,5 @@
-export interface CreateCheckingAccountDTO {
+export interface CheckingAccountDTO {
+  id?: string;
   userId: string;
   name: string;
   account: string;
