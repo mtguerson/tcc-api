@@ -9,6 +9,6 @@ export class GetUserByPhoneController {
 
     const result = await getUserByPhoneUseCase.execute({ phone });
 
-    return res.status(201).json(result);
+    return res.status(200).json(result);
   }
 }

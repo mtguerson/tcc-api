@@ -9,6 +9,6 @@ export class DeleteCheckingAccountByIdController {
 
     const result = await deleteCheckingAccountByIdUseCase.execute(id);
 
-    return res.status(201).json(result);
+    return res.status(200).json(result);
   }
 }

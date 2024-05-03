@@ -9,6 +9,6 @@ export class DeleteUserController {
 
     const result = await deleteUserUseCase.execute(id);
 
-    return res.status(201).json(result);
+    return res.status(200).json(result);
   }
 }

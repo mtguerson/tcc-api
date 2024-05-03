@@ -9,6 +9,6 @@ export class GetCheckingAccountByUserIdController {
 
     const result = await getCheckingAccountByUserIdUseCase.execute({ userId });
 
-    return res.status(201).json(result);
+    return res.status(200).json(result);
   }
 }
