@@ -1,5 +1,5 @@
 export interface CheckingAccountDTO {
-  id?: string;
+  id: string;
   userId: string;
   name: string;
   account: string;
