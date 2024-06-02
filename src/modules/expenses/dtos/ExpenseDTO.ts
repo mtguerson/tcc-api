@@ -1,8 +1,9 @@
 export interface ExpenseDTO {
-  id: string;
+  id?: string;
   name: string;
   date: Date;
   value: number;
-  creditCardId: string;
-  categoryId: string;
+  checkingAccountId: string;
+  creditCardId?: string;
+  categoryId?: string;
 }

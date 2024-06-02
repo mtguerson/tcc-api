@@ -1,9 +1,10 @@
-import { Request, Response } from 'express';
-import { CreateExpenseUseCase } from './CreateExpenseUseCase';
+import { Request, Response } from "express";
+import { CreateExpenseUseCase } from "./CreateExpenseUseCase";
 
 export class CreateExpenseController {
   async handle(request: Request, response: Response): Promise<Response> {
-    const { name, date, value, creditCardId, categoryId } = request.body;
+    const { name, date, value, creditCardId, categoryId, checkingAccountId } =
+      request.body;
 
     const createExpenseUseCase = new CreateExpenseUseCase();
 
@@ -13,6 +14,7 @@ export class CreateExpenseController {
       value,
       creditCardId,
       categoryId,
+      checkingAccountId,
     });
 
     return response.status(201).json(expense);

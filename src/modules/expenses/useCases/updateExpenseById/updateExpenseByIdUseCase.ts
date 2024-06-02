@@ -4,27 +4,47 @@ import { prisma } from "../../../../prisma/client";
 import { ExpenseDTO } from "../../dtos/ExpenseDTO";
 
 export class UpdateExpenseByIdUseCase {
-  async execute({ id, name, date, value, creditCardId, categoryId }: ExpenseDTO): Promise<Expense> {
+  async execute({
+    id,
+    name,
+    date,
+    value,
+    creditCardId,
+    categoryId,
+    checkingAccountId,
+  }: ExpenseDTO): Promise<Expense> {
     const expenseExists = await prisma.expense.findUnique({
       where: {
-        id
-      }
+        id,
+      },
     });
 
     if (!expenseExists) {
-      throw new AppError('Expense not found');
+      throw new AppError("Expense not found");
     }
+
+    const checkingAccount = await prisma.checkingAccount.findUnique({
+      where: {
+        id: checkingAccountId,
+      },
+    });
+
+    if (!checkingAccount) {
+      throw new AppError("Checking account not found", 404);
+    }
+
     const expenseUpdated = await prisma.expense.update({
       where: {
-        id
+        id,
       },
       data: {
         name,
         date,
         value,
         creditCardId,
-        categoryId
-      }
+        categoryId,
+        checkingAccountId,
+      },
     });
 
     return expenseUpdated;

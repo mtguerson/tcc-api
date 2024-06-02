@@ -1,18 +1,22 @@
 import { Router } from "express";
 import { CreateExpenseController } from "../modules/expenses/useCases/createExpense/CreateExpenseController";
-import { GetExpenseByCreditCardIdController } from "../modules/expenses/useCases/getExpenseByCreditCardId/getExpenseByCreditCardIdController";
+import { GetExpenseByIdController } from "../modules/expenses/useCases/getExpenseById/getExpenseByIdController";
 import { DeleteExpenseByIdController } from "../modules/expenses/useCases/deleteExpenseById/DeleteExpenseByIdController";
 import { UpdateExpenseByIdController } from "../modules/expenses/useCases/updateExpenseById/updateExpenseByIdController";
+import { ListAllExpensesByUserIdController } from "../modules/expenses/useCases/listAllExpensesByUserId/listAllExpensesByUserIdController";
 
 const createExpenseController = new CreateExpenseController();
-const getExpenseByCreditCardIdController = new GetExpenseByCreditCardIdController();
+const getExpenseByIdController = new GetExpenseByIdController();
 const deleteExpenseByIdController = new DeleteExpenseByIdController();
 const updateExpenseByIdController = new UpdateExpenseByIdController();
+const listAllExpensesByUserIdController =
+  new ListAllExpensesByUserIdController();
 
 const expenseRoutes = Router();
 
 expenseRoutes.post("/create", createExpenseController.handle);
-expenseRoutes.get("/:creditCardId", getExpenseByCreditCardIdController.handle);
+expenseRoutes.get("/:id", getExpenseByIdController.handle);
+expenseRoutes.get("/user/:id", listAllExpensesByUserIdController.handle);
 expenseRoutes.delete("/:id", deleteExpenseByIdController.handle);
 expenseRoutes.put("/:id", updateExpenseByIdController.handle);
 
