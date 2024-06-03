@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { UpdateExpenseByIdUseCase } from "./updateExpenseByIdUseCase";
+import { UpdateExpenseByIdUseCase } from "./UpdateExpenseByIdUseCase";
 
 export class UpdateExpenseByIdController {
   async handle(req: Request, res: Response) {
