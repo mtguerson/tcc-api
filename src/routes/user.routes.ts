@@ -16,7 +16,7 @@ const userRoutes = Router();
 userRoutes.post("/create", createUserController.handle);
 userRoutes.delete(
   "/delete/:id",
-  verifyToken.handle,
+  verifyToken.handleAdmin,
   deleteUserController.handle
 );
 userRoutes.get(
