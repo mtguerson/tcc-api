@@ -3,7 +3,8 @@ import { CreateCheckingAccountUseCase } from "./CreateCheckingAccountUseCase";
 
 export class CreateCheckingAccountController {
   async handle(req: Request, res: Response) {
-    const { userId, name, account, agency, bank, balance, maintenanceFee } = req.body;
+    const { userId, name, account, agency, bank, balance, maintenanceFee } =
+      req.body;
 
     const createCheckingAccountUseCase = new CreateCheckingAccountUseCase();
 
@@ -14,7 +15,7 @@ export class CreateCheckingAccountController {
       agency,
       bank,
       balance,
-      maintenanceFee
+      maintenanceFee,
     });
 
     return res.status(201).json(result);

@@ -1,0 +1,21 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.userRoutes = void 0;
+var express_1 = require("express");
+var CreateUserController_1 = require("../modules/users/useCases/createUser/CreateUserController");
+var GetUserByUsernameController_1 = require("../modules/users/useCases/getUserByUsername/GetUserByUsernameController");
+var DeleteUserController_1 = require("../modules/users/useCases/deleteUserById/DeleteUserController");
+var LoginUserController_1 = require("../modules/users/useCases/loginUser/LoginUserController");
+var auth_1 = require("../middlewares/auth");
+var createUserController = new CreateUserController_1.CreateUserController();
+var getUserByUsernameController = new GetUserByUsernameController_1.GetUserByUsernameController();
+var deleteUserController = new DeleteUserController_1.DeleteUserController();
+var loginUserController = new LoginUserController_1.LoginUserController();
+var verifyToken = new auth_1.VerifyToken();
+var userRoutes = (0, express_1.Router)();
+exports.userRoutes = userRoutes;
+userRoutes.post("/create", createUserController.handle);
+userRoutes.delete("/delete/:id", verifyToken.handle, deleteUserController.handle);
+userRoutes.get("/:username", verifyToken.handle, getUserByUsernameController.handle);
+userRoutes.post("/login", loginUserController.handle);
+//# sourceMappingURL=user.routes.js.map

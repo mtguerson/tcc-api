@@ -4,18 +4,24 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "dev": "ts-node-dev --exit-child --transpile-only --ignore-watch node_modules src/server.ts"
+    "dev": "ts-node-dev --exit-child --transpile-only --ignore-watch node_modules src/server.ts",
+    "build": "tsc"
   },
   "devDependencies": {
+    "@types/bcrypt": "^5.0.2",
     "@types/express": "^4.17.21",
+    "@types/jsonwebtoken": "^9.0.6",
+    "dotenv": "^16.4.5",
     "prisma": "^5.13.0",
     "ts-node-dev": "^2.0.0",
     "typescript": "^5.4.4"
   },
   "dependencies": {
     "@prisma/client": "^5.12.1",
+    "bcrypt": "^5.1.1",
     "decimal.js": "^10.4.3",
     "express": "^4.19.2",
-    "express-async-errors": "^3.1.1"
+    "express-async-errors": "^3.1.1",
+    "jsonwebtoken": "^9.0.2"
   }
 }

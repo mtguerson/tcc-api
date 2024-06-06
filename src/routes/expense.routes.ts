@@ -1,8 +1,8 @@
 import { Router } from "express";
 import { CreateExpenseController } from "../modules/expenses/useCases/createExpense/CreateExpenseController";
-import { GetExpenseByIdController } from "../modules/expenses/useCases/getExpenseById/GetExpenseByIdController";
+import { GetExpenseByIdController } from "../modules/expenses/useCases/getExpenseById/getExpenseByIdController";
 import { DeleteExpenseByIdController } from "../modules/expenses/useCases/deleteExpenseById/DeleteExpenseByIdController";
-import { UpdateExpenseByIdController } from "../modules/expenses/useCases/updateExpenseById/UpdateExpenseByIdController";
+import { UpdateExpenseByIdController } from "../modules/expenses/useCases/updateExpenseById/updateExpenseByIdController";
 import { ListAllExpensesByUserIdController } from "../modules/expenses/useCases/listAllExpensesByUserId/listAllExpensesByUserIdController";
 
 const createExpenseController = new CreateExpenseController();

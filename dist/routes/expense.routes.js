@@ -1,0 +1,22 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.expenseRoutes = void 0;
+var express_1 = require("express");
+var CreateExpenseController_1 = require("../modules/expenses/useCases/createExpense/CreateExpenseController");
+var getExpenseByIdController_1 = require("../modules/expenses/useCases/getExpenseById/getExpenseByIdController");
+var DeleteExpenseByIdController_1 = require("../modules/expenses/useCases/deleteExpenseById/DeleteExpenseByIdController");
+var updateExpenseByIdController_1 = require("../modules/expenses/useCases/updateExpenseById/updateExpenseByIdController");
+var listAllExpensesByUserIdController_1 = require("../modules/expenses/useCases/listAllExpensesByUserId/listAllExpensesByUserIdController");
+var createExpenseController = new CreateExpenseController_1.CreateExpenseController();
+var getExpenseByIdController = new getExpenseByIdController_1.GetExpenseByIdController();
+var deleteExpenseByIdController = new DeleteExpenseByIdController_1.DeleteExpenseByIdController();
+var updateExpenseByIdController = new updateExpenseByIdController_1.UpdateExpenseByIdController();
+var listAllExpensesByUserIdController = new listAllExpensesByUserIdController_1.ListAllExpensesByUserIdController();
+var expenseRoutes = (0, express_1.Router)();
+exports.expenseRoutes = expenseRoutes;
+expenseRoutes.post("/create", createExpenseController.handle);
+expenseRoutes.get("/:id", getExpenseByIdController.handle);
+expenseRoutes.get("/user/:id", listAllExpensesByUserIdController.handle);
+expenseRoutes.delete("/:id", deleteExpenseByIdController.handle);
+expenseRoutes.put("/:id", updateExpenseByIdController.handle);
+//# sourceMappingURL=expense.routes.js.map

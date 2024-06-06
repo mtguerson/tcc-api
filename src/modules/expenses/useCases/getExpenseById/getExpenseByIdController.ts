@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
-import { GetExpenseByIdUseCase } from "./GetExpenseByIdUseCase";
+import { GetExpenseByIdUseCase } from "./getExpenseByIdUseCase";
+import { VerifyToken } from "../../../../middlewares/auth";
 
 export class GetExpenseByIdController {
   async handle(req: Request, res: Response) {

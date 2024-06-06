@@ -2,6 +2,8 @@ import "express-async-errors";
 import express, { NextFunction, Request, Response } from "express";
 import { routes } from "./routes";
 import { AppError } from "./errors/AppError";
+import dotenv from "dotenv";
+dotenv.config();
 
 const app = express();
 
@@ -25,4 +27,6 @@ app.use(
   }
 );
 
-app.listen(3000, () => console.log("Server is running on port 3000 🚀"));
+app.listen(process.env.PORT, () =>
+  console.log(`Server is running on port ${process.env.PORT} 🚀`)
+);
