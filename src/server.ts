@@ -6,6 +6,12 @@ import dotenv from "dotenv";
 dotenv.config();
 
 const app = express();
+const cors = require('cors');
+
+// Use the CORS middleware
+app.use(cors({
+  origin: 'http://localhost:5173' // Allow requests from this origin
+}));
 
 app.use(express.json());
 
