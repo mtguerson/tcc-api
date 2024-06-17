@@ -3,7 +3,14 @@ import { prisma } from "../../../../prisma/client";
 import { SignUpDto } from "../../dtos/signup";
 import { AppError } from "../../../../errors/AppError";
 import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
+import { jwtInfo } from "../../../../types/jwtInfo";
 
+type CreateUserResponse = Partial<
+  User & {
+    accessToken?: string;
+  }
+>;
 export class CreateUserUseCase {
   async execute({
     name,
@@ -11,7 +18,7 @@ export class CreateUserUseCase {
     password,
     cpf,
     phone,
-  }: SignUpDto): Promise<Partial<User>> {
+  }: SignUpDto): Promise<CreateUserResponse> {
     const userAlreadyExists = await prisma.user.findUnique({
       where: {
         email,
@@ -61,11 +68,23 @@ export class CreateUserUseCase {
       },
     });
 
+    const jwtUserInfo: jwtInfo = {
+      userId: user.id,
+      email: user.email,
+      name: user.name,
+      isAdmin: user.isAdmin,
+    };
+
+    const token = jwt.sign(jwtUserInfo, `${process.env.JWT_SECRET}`, {
+      expiresIn: "1d",
+    });
+
     return {
       email: user.email,
       name: user.name,
       cpf: user.cpf,
       phone: user.phone,
+      accessToken: token,
     };
   }
 }

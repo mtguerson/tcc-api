@@ -81,7 +81,7 @@ var LoginUserUseCase = /** @class */ (function () {
                             expiresIn: "1d",
                         });
                         return [2 /*return*/, {
-                                token: token,
+                                accessToken: token,
                             }];
                 }
             });
