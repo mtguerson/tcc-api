@@ -39,7 +39,7 @@ export class LoginUserUseCase {
     });
 
     return {
-      token: token,
+      accessToken: token,
     };
   }
 }
