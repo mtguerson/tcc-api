@@ -1,13 +1,19 @@
 import { Request, Response } from "express";
 import { GetCheckingAccountByUserIdUseCase } from "./GetCheckingAccountByUserIdUseCase";
+import { VerifyToken } from "../../../../middlewares/auth";
 
 export class GetCheckingAccountByUserIdController {
   async handle(req: Request, res: Response) {
-    const { userId } = req.params;
+    const user = await VerifyToken.handleFoundUser(req);
 
-    const getCheckingAccountByUserIdUseCase = new GetCheckingAccountByUserIdUseCase();
+    if (!user) return res.status(401).json({ message: "Unauthorized" });
 
-    const result = await getCheckingAccountByUserIdUseCase.execute({ userId });
+    const getCheckingAccountByUserIdUseCase =
+      new GetCheckingAccountByUserIdUseCase();
+
+    const result = await getCheckingAccountByUserIdUseCase.execute({
+      userId: user?.userId,
+    });
 
     return res.status(200).json(result);
   }

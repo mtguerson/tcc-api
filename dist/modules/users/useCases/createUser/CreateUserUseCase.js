@@ -43,12 +43,13 @@ exports.CreateUserUseCase = void 0;
 var client_1 = require("../../../../prisma/client");
 var AppError_1 = require("../../../../errors/AppError");
 var bcrypt_1 = __importDefault(require("bcrypt"));
+var jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 var CreateUserUseCase = /** @class */ (function () {
     function CreateUserUseCase() {
     }
     CreateUserUseCase.prototype.execute = function (_a) {
         return __awaiter(this, arguments, void 0, function (_b) {
-            var userAlreadyExists, phoneAlreadyTaken, cpfAlreadyTaken, passwordSalt, salt, hashedPassword, user;
+            var userAlreadyExists, phoneAlreadyTaken, cpfAlreadyTaken, passwordSalt, salt, hashedPassword, user, jwtUserInfo, token;
             var name = _b.name, email = _b.email, password = _b.password, cpf = _b.cpf, phone = _b.phone;
             return __generator(this, function (_c) {
                 switch (_c.label) {
@@ -99,11 +100,21 @@ var CreateUserUseCase = /** @class */ (function () {
                             })];
                     case 4:
                         user = _c.sent();
+                        jwtUserInfo = {
+                            userId: user.id,
+                            email: user.email,
+                            name: user.name,
+                            isAdmin: user.isAdmin,
+                        };
+                        token = jsonwebtoken_1.default.sign(jwtUserInfo, "".concat(process.env.JWT_SECRET), {
+                            expiresIn: "1d",
+                        });
                         return [2 /*return*/, {
                                 email: user.email,
                                 name: user.name,
                                 cpf: user.cpf,
                                 phone: user.phone,
+                                accessToken: token,
                             }];
                 }
             });

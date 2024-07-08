@@ -6,12 +6,14 @@ import dotenv from "dotenv";
 dotenv.config();
 
 const app = express();
-const cors = require('cors');
+const cors = require("cors");
 
 // Use the CORS middleware
-app.use(cors({
-  origin: 'http://localhost:5173' // Allow requests from this origin
-}));
+app.use(
+  cors({
+    origin: "http://localhost:5173", // Allow requests from this origin
+  })
+);
 
 app.use(express.json());
 
@@ -28,7 +30,8 @@ app.use(
 
     return response.status(500).json({
       status: "error",
-      message: `Internal server error - ${err.message}`,
+      message: `Internal server error`,
+      content: `${err.message}`,
     });
   }
 );

@@ -47,7 +47,7 @@ export class VerifyToken {
     next();
   }
 
-  async handleFoundUser(req: CustomRequest) {
+  static async handleFoundUser(req: CustomRequest) {
     return req.userInfo;
   }
 }
