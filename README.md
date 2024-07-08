@@ -1,3 +1,22 @@
+### Installing Node.js and Yarn
+
+#### Node.js Installation
+
+1. Visit the [Node.js website](https://nodejs.org/).
+2. Download the recommended version for your operating system.
+3. Follow the installation instructions for your OS.
+
+#### Yarn Installation
+
+1. Once Node.js is installed, you can install Yarn via npm (Node Package Manager) which comes with Node.js.
+   ```sh
+   npm install --global yarn
+   ```
+2. Verify the installation by checking the Yarn version.
+   ```sh
+   yarn --version
+   ```
+
 ## Getting Started
 
 ### Prerequisites
