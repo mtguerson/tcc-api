@@ -1,3 +1,4 @@
+
 ### Installing Node.js and Yarn
 
 #### Node.js Installation
@@ -17,12 +18,25 @@
    yarn --version
    ```
 
+### Installing Docker
+
+#### Docker Installation
+
+1. Visit the [Docker website](https://www.docker.com/).
+2. Download the Docker Desktop for your operating system.
+3. Follow the installation instructions for your OS.
+4. Verify the installation by checking the Docker version.
+   ```sh
+   docker --version
+   ```
+
 ## Getting Started
 
 ### Prerequisites
 
 - Node.js
 - Yarn package manager
+- Docker
 
 ### Installation
 
@@ -38,22 +52,23 @@
    ```sh
    yarn install
    ```
-4. Run database migrations:
+4. Create a `.env` file by copying the `example.env` file:
+   ```sh
+   cp example.env .env
+   ```
+   - Fill in the necessary environment variables in the `.env` file as needed.
+5. Run database migrations:
    ```sh
    yarn migrate dev
    ```
 
 ### Running the Project
 
-1. Start the development server:
+1. Start containerL
+   ```sh
+   docker-compose up
+   ```
+2. Start the development server:
    ```sh
    yarn dev
    ```
-
-## Contributing
-
-1. Fork the repository.
-2. Create a new branch (`git checkout -b feature/branch-name`).
-3. Commit your changes (`git commit -m 'Add some feature'`).
-4. Push to the branch (`git push origin feature/branch-name`).
-5. Open a Pull Request.
