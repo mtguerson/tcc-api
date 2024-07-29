@@ -11,6 +11,9 @@ type CreateUserResponse = Partial<
     accessToken?: string;
   }
 >;
+
+const defaultCategories = ["Salário", "Casa", "Alimentação", "Mercado", "Viagem"];
+
 export class CreateUserUseCase {
   async execute({
     name,
@@ -61,6 +64,9 @@ export class CreateUserUseCase {
         email,
         password: hashedPassword,
         phone,
+        categories: {
+          create: defaultCategories.map(name => ({ name }))
+        }
       },
     });
 
