@@ -4,15 +4,15 @@ import { VerifyToken } from "../../../../middlewares/auth";
 
 export class CreateUserController {
   async handle(req: Request, res: Response) {
-    const { name, email, password, cpf, phone } = req.body;
+    const { name, email, password, phone, username } = req.body;
 
     const createUserUseCase = new CreateUserUseCase();
 
     const result = await createUserUseCase.execute({
       name,
+      username,
       email,
       password,
-      cpf,
       phone,
     });
 

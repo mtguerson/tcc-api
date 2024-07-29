@@ -11,7 +11,6 @@ export class GetUserMeUseCase {
         name: true,
         email: true,
         isAdmin: true,
-        cpf: true,
         username: true,
         phone: true,
       },

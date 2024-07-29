@@ -38,19 +38,25 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.GetCheckingAccountByUserIdController = void 0;
 var GetCheckingAccountByUserIdUseCase_1 = require("./GetCheckingAccountByUserIdUseCase");
+var auth_1 = require("../../../../middlewares/auth");
 var GetCheckingAccountByUserIdController = /** @class */ (function () {
     function GetCheckingAccountByUserIdController() {
     }
     GetCheckingAccountByUserIdController.prototype.handle = function (req, res) {
         return __awaiter(this, void 0, void 0, function () {
-            var userId, getCheckingAccountByUserIdUseCase, result;
+            var user, getCheckingAccountByUserIdUseCase, result;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0:
-                        userId = req.params.userId;
-                        getCheckingAccountByUserIdUseCase = new GetCheckingAccountByUserIdUseCase_1.GetCheckingAccountByUserIdUseCase();
-                        return [4 /*yield*/, getCheckingAccountByUserIdUseCase.execute({ userId: userId })];
+                    case 0: return [4 /*yield*/, auth_1.VerifyToken.handleFoundUser(req)];
                     case 1:
+                        user = _a.sent();
+                        if (!user)
+                            return [2 /*return*/, res.status(401).json({ message: "Unauthorized" })];
+                        getCheckingAccountByUserIdUseCase = new GetCheckingAccountByUserIdUseCase_1.GetCheckingAccountByUserIdUseCase();
+                        return [4 /*yield*/, getCheckingAccountByUserIdUseCase.execute({
+                                userId: user === null || user === void 0 ? void 0 : user.userId,
+                            })];
+                    case 2:
                         result = _a.sent();
                         return [2 /*return*/, res.status(200).json(result)];
                 }

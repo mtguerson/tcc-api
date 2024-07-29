@@ -49,8 +49,8 @@ var CreateUserUseCase = /** @class */ (function () {
     }
     CreateUserUseCase.prototype.execute = function (_a) {
         return __awaiter(this, arguments, void 0, function (_b) {
-            var userAlreadyExists, phoneAlreadyTaken, cpfAlreadyTaken, passwordSalt, salt, hashedPassword, user, jwtUserInfo, token;
-            var name = _b.name, email = _b.email, password = _b.password, cpf = _b.cpf, phone = _b.phone;
+            var userAlreadyExists, phoneAlreadyTaken, usernameAlreadyTaken, passwordSalt, salt, hashedPassword, user, jwtUserInfo, token;
+            var name = _b.name, username = _b.username, email = _b.email, password = _b.password, phone = _b.phone;
             return __generator(this, function (_c) {
                 switch (_c.label) {
                     case 0: return [4 /*yield*/, client_1.prisma.user.findUnique({
@@ -70,21 +70,18 @@ var CreateUserUseCase = /** @class */ (function () {
                             })];
                     case 2:
                         phoneAlreadyTaken = _c.sent();
-                        return [4 /*yield*/, client_1.prisma.user.findUnique({
-                                where: {
-                                    cpf: cpf,
-                                },
-                            })];
-                    case 3:
-                        cpfAlreadyTaken = _c.sent();
-                        if (cpfAlreadyTaken) {
-                            throw new AppError_1.AppError("Cpf already taken");
-                        }
                         if (phoneAlreadyTaken) {
                             throw new AppError_1.AppError("Phone already taken");
                         }
-                        if (cpf.length !== 11) {
-                            throw new AppError_1.AppError("Invalid CPF");
+                        return [4 /*yield*/, client_1.prisma.user.findUnique({
+                                where: {
+                                    username: username
+                                }
+                            })];
+                    case 3:
+                        usernameAlreadyTaken = _c.sent();
+                        if (usernameAlreadyTaken) {
+                            throw new AppError_1.AppError("Username already taken");
                         }
                         passwordSalt = Number("".concat(process.env.SALT_PASSWORD || 10));
                         salt = bcrypt_1.default.genSaltSync(passwordSalt);
@@ -92,9 +89,9 @@ var CreateUserUseCase = /** @class */ (function () {
                         return [4 /*yield*/, client_1.prisma.user.create({
                                 data: {
                                     name: name,
+                                    username: username,
                                     email: email,
                                     password: hashedPassword,
-                                    cpf: cpf,
                                     phone: phone,
                                 },
                             })];
@@ -104,6 +101,7 @@ var CreateUserUseCase = /** @class */ (function () {
                             userId: user.id,
                             email: user.email,
                             name: user.name,
+                            username: user.username,
                             isAdmin: user.isAdmin,
                         };
                         token = jsonwebtoken_1.default.sign(jwtUserInfo, "".concat(process.env.JWT_SECRET), {
@@ -112,7 +110,7 @@ var CreateUserUseCase = /** @class */ (function () {
                         return [2 /*return*/, {
                                 email: user.email,
                                 name: user.name,
-                                cpf: user.cpf,
+                                username: user.username,
                                 phone: user.phone,
                                 accessToken: token,
                             }];

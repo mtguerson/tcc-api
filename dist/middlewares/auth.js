@@ -85,7 +85,7 @@ var VerifyToken = /** @class */ (function () {
             });
         });
     };
-    VerifyToken.prototype.handleFoundUser = function (req) {
+    VerifyToken.handleFoundUser = function (req) {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
                 return [2 /*return*/, req.userInfo];

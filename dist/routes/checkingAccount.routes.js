@@ -6,14 +6,16 @@ var CreateCheckingAccountController_1 = require("../modules/checkingAccounts/use
 var GetCheckingAccountByUserIdController_1 = require("../modules/checkingAccounts/useCases/getCheckingAccountsByUserId/GetCheckingAccountByUserIdController");
 var DeleteCheckingAccountByIdController_1 = require("../modules/checkingAccounts/useCases/deleteCheckingAccountById/DeleteCheckingAccountByIdController");
 var UpdateCheckingAccountByIdController_1 = require("../modules/checkingAccounts/useCases/updateCheckingAccountById/UpdateCheckingAccountByIdController");
+var auth_1 = require("../middlewares/auth");
 var createCheckingAccountController = new CreateCheckingAccountController_1.CreateCheckingAccountController();
 var getCheckingAccountByUserIdController = new GetCheckingAccountByUserIdController_1.GetCheckingAccountByUserIdController();
 var deleteCheckingAccountByIdController = new DeleteCheckingAccountByIdController_1.DeleteCheckingAccountByIdController();
 var updateCheckingAccountByIdController = new UpdateCheckingAccountByIdController_1.UpdateCheckingAccountByIdController();
+var verifyToken = new auth_1.VerifyToken();
 var checkingAccountRoutes = (0, express_1.Router)();
 exports.checkingAccountRoutes = checkingAccountRoutes;
-checkingAccountRoutes.post("/create", createCheckingAccountController.handle);
-checkingAccountRoutes.get("/:userId", getCheckingAccountByUserIdController.handle);
-checkingAccountRoutes.delete("/:id", deleteCheckingAccountByIdController.handle);
-checkingAccountRoutes.put("/:id", updateCheckingAccountByIdController.handle);
+checkingAccountRoutes.post("/create", verifyToken.handle, createCheckingAccountController.handle);
+checkingAccountRoutes.get("/user", verifyToken.handle, getCheckingAccountByUserIdController.handle);
+checkingAccountRoutes.delete("/:id", verifyToken.handle, deleteCheckingAccountByIdController.handle);
+checkingAccountRoutes.put("/:id", verifyToken.handle, updateCheckingAccountByIdController.handle);
 //# sourceMappingURL=checkingAccount.routes.js.map

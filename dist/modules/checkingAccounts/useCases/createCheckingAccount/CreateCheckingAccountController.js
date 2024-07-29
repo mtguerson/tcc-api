@@ -38,19 +38,26 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.CreateCheckingAccountController = void 0;
 var CreateCheckingAccountUseCase_1 = require("./CreateCheckingAccountUseCase");
+var auth_1 = require("../../../../middlewares/auth");
 var CreateCheckingAccountController = /** @class */ (function () {
     function CreateCheckingAccountController() {
     }
     CreateCheckingAccountController.prototype.handle = function (req, res) {
         return __awaiter(this, void 0, void 0, function () {
-            var _a, userId, name, account, agency, bank, balance, maintenanceFee, createCheckingAccountUseCase, result;
+            var _a, name, account, agency, bank, balance, maintenanceFee, user, createCheckingAccountUseCase, result;
             return __generator(this, function (_b) {
                 switch (_b.label) {
                     case 0:
-                        _a = req.body, userId = _a.userId, name = _a.name, account = _a.account, agency = _a.agency, bank = _a.bank, balance = _a.balance, maintenanceFee = _a.maintenanceFee;
+                        _a = req.body, name = _a.name, account = _a.account, agency = _a.agency, bank = _a.bank, balance = _a.balance, maintenanceFee = _a.maintenanceFee;
+                        return [4 /*yield*/, auth_1.VerifyToken.handleFoundUser(req)];
+                    case 1:
+                        user = _b.sent();
+                        if (!(user === null || user === void 0 ? void 0 : user.userId)) {
+                            return [2 /*return*/, res.status(401).json({ message: "Unauthorized" })];
+                        }
                         createCheckingAccountUseCase = new CreateCheckingAccountUseCase_1.CreateCheckingAccountUseCase();
                         return [4 /*yield*/, createCheckingAccountUseCase.execute({
-                                userId: userId,
+                                userId: user.userId,
                                 name: name,
                                 account: account,
                                 agency: agency,
@@ -58,7 +65,7 @@ var CreateCheckingAccountController = /** @class */ (function () {
                                 balance: balance,
                                 maintenanceFee: maintenanceFee,
                             })];
-                    case 1:
+                    case 2:
                         result = _b.sent();
                         return [2 /*return*/, res.status(201).json(result)];
                 }

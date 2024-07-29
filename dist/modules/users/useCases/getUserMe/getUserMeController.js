@@ -49,7 +49,7 @@ var GetUserMeController = /** @class */ (function () {
                 switch (_a.label) {
                     case 0:
                         loginUserUseCase = new getUserMeUseCase_1.GetUserMeUseCase();
-                        return [4 /*yield*/, new auth_1.VerifyToken().handleFoundUser(req)];
+                        return [4 /*yield*/, auth_1.VerifyToken.handleFoundUser(req)];
                     case 1:
                         userId = _a.sent();
                         if (!userId)

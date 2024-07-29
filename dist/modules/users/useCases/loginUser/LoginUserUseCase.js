@@ -75,6 +75,7 @@ var LoginUserUseCase = /** @class */ (function () {
                             userId: user.id,
                             email: user.email,
                             name: user.name,
+                            username: user.username,
                             isAdmin: user.isAdmin,
                         };
                         token = jsonwebtoken_1.default.sign(jwtUserInfo, "".concat(process.env.JWT_SECRET), {

@@ -10,10 +10,10 @@ var AppError_1 = require("./errors/AppError");
 var dotenv_1 = __importDefault(require("dotenv"));
 dotenv_1.default.config();
 var app = (0, express_1.default)();
-var cors = require('cors');
+var cors = require("cors");
 // Use the CORS middleware
 app.use(cors({
-    origin: 'http://localhost:5173' // Allow requests from this origin
+    origin: "http://localhost:5173", // Allow requests from this origin
 }));
 app.use(express_1.default.json());
 app.use(routes_1.routes);
@@ -26,7 +26,8 @@ app.use(function (err, request, response, next) {
     }
     return response.status(500).json({
         status: "error",
-        message: "Internal server error - ".concat(err.message),
+        message: "Internal server error",
+        content: "".concat(err.message),
     });
 });
 app.listen(process.env.PORT, function () {

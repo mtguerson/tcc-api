@@ -14,9 +14,9 @@ type CreateUserResponse = Partial<
 export class CreateUserUseCase {
   async execute({
     name,
+    username,
     email,
     password,
-    cpf,
     phone,
   }: SignUpDto): Promise<CreateUserResponse> {
     const userAlreadyExists = await prisma.user.findUnique({
@@ -35,22 +35,18 @@ export class CreateUserUseCase {
       },
     });
 
-    const cpfAlreadyTaken = await prisma.user.findUnique({
-      where: {
-        cpf,
-      },
-    });
-
-    if (cpfAlreadyTaken) {
-      throw new AppError("Cpf already taken");
-    }
-
     if (phoneAlreadyTaken) {
       throw new AppError("Phone already taken");
     }
 
-    if (cpf.length !== 11) {
-      throw new AppError("Invalid CPF");
+    const usernameAlreadyTaken = await prisma.user.findUnique({
+      where: {
+        username
+      }
+    })
+
+    if (usernameAlreadyTaken) {
+      throw new AppError("Username already taken");
     }
 
     const passwordSalt = Number(`${process.env.SALT_PASSWORD || 10}`);
@@ -61,9 +57,9 @@ export class CreateUserUseCase {
     const user = await prisma.user.create({
       data: {
         name,
+        username,
         email,
         password: hashedPassword,
-        cpf,
         phone,
       },
     });
@@ -72,6 +68,7 @@ export class CreateUserUseCase {
       userId: user.id,
       email: user.email,
       name: user.name,
+      username: user.username,
       isAdmin: user.isAdmin,
     };
 
@@ -82,7 +79,7 @@ export class CreateUserUseCase {
     return {
       email: user.email,
       name: user.name,
-      cpf: user.cpf,
+      username: user.username,
       phone: user.phone,
       accessToken: token,
     };

@@ -43,17 +43,17 @@ var CreateUserController = /** @class */ (function () {
     }
     CreateUserController.prototype.handle = function (req, res) {
         return __awaiter(this, void 0, void 0, function () {
-            var _a, name, email, password, cpf, phone, createUserUseCase, result;
+            var _a, name, email, password, phone, username, createUserUseCase, result;
             return __generator(this, function (_b) {
                 switch (_b.label) {
                     case 0:
-                        _a = req.body, name = _a.name, email = _a.email, password = _a.password, cpf = _a.cpf, phone = _a.phone;
+                        _a = req.body, name = _a.name, email = _a.email, password = _a.password, phone = _a.phone, username = _a.username;
                         createUserUseCase = new CreateUserUseCase_1.CreateUserUseCase();
                         return [4 /*yield*/, createUserUseCase.execute({
                                 name: name,
+                                username: username,
                                 email: email,
                                 password: password,
-                                cpf: cpf,
                                 phone: phone,
                             })];
                     case 1:
