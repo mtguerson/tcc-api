@@ -10,7 +10,7 @@ export class DeleteCreditCardByIdUseCase {
     });
 
     if (!creditCardExists) {
-      throw new AppError('CreditCard not found');
+      throw new AppError('Credit card not found');
     }
 
     await prisma.creditCard.delete({

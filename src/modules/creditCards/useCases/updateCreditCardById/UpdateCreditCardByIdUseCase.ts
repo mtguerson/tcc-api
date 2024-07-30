@@ -12,7 +12,7 @@ export class UpdateCreditCardByIdUseCase {
     });
 
     if (!creditCardExists) {
-      throw new AppError('Checking Account not found');
+      throw new AppError('Credit card not found');
     }
 
     if (creditCardExists.name !== name) {
@@ -27,7 +27,7 @@ export class UpdateCreditCardByIdUseCase {
       });
 
       if (creditCardNameExists) {
-        throw new AppError('Another account with this name already exists for this user');
+        throw new AppError('Another credit card with this name already exists for this user');
       }
     }
 
