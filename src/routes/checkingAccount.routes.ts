@@ -21,7 +21,7 @@ checkingAccountRoutes.post(
   createCheckingAccountController.handle
 );
 checkingAccountRoutes.get(
-  "/user",
+  "/:id",
   verifyToken.handle,
   getCheckingAccountByUserIdController.handle
 );
