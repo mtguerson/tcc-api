@@ -36,61 +36,40 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.UpdateTransactionByIdUseCase = void 0;
+exports.DeleteCreditCardByIdUseCase = void 0;
 var AppError_1 = require("../../../../errors/AppError");
 var client_1 = require("../../../../prisma/client");
-var UpdateTransactionByIdUseCase = /** @class */ (function () {
-    function UpdateTransactionByIdUseCase() {
+var DeleteCreditCardByIdUseCase = /** @class */ (function () {
+    function DeleteCreditCardByIdUseCase() {
     }
-    UpdateTransactionByIdUseCase.prototype.execute = function (_a) {
-        return __awaiter(this, arguments, void 0, function (_b) {
-            var transactionExists, checkingAccount, transactionUpdated;
-            var id = _b.id, name = _b.name, date = _b.date, value = _b.value, balanceAdjustment = _b.balanceAdjustment, type = _b.type, creditCardId = _b.creditCardId, categoryId = _b.categoryId, checkingAccountId = _b.checkingAccountId;
-            return __generator(this, function (_c) {
-                switch (_c.label) {
-                    case 0: return [4 /*yield*/, client_1.prisma.transaction.findUnique({
+    DeleteCreditCardByIdUseCase.prototype.execute = function (id) {
+        return __awaiter(this, void 0, void 0, function () {
+            var creditCardExists;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, client_1.prisma.creditCard.findUnique({
                             where: {
-                                id: id,
-                            },
+                                id: id
+                            }
                         })];
                     case 1:
-                        transactionExists = _c.sent();
-                        if (!transactionExists) {
-                            throw new AppError_1.AppError("Transaction not found");
+                        creditCardExists = _a.sent();
+                        if (!creditCardExists) {
+                            throw new AppError_1.AppError('Credit card not found');
                         }
-                        return [4 /*yield*/, client_1.prisma.checkingAccount.findUnique({
+                        return [4 /*yield*/, client_1.prisma.creditCard.delete({
                                 where: {
-                                    id: checkingAccountId,
-                                },
+                                    id: id
+                                }
                             })];
                     case 2:
-                        checkingAccount = _c.sent();
-                        if (!checkingAccount) {
-                            throw new AppError_1.AppError("Checking account not found", 404);
-                        }
-                        return [4 /*yield*/, client_1.prisma.transaction.update({
-                                where: {
-                                    id: id,
-                                },
-                                data: {
-                                    name: name,
-                                    balanceAdjustment: balanceAdjustment,
-                                    type: type,
-                                    date: date,
-                                    value: value,
-                                    creditCardId: creditCardId,
-                                    categoryId: categoryId,
-                                    checkingAccountId: checkingAccountId,
-                                },
-                            })];
-                    case 3:
-                        transactionUpdated = _c.sent();
-                        return [2 /*return*/, transactionUpdated];
+                        _a.sent();
+                        return [2 /*return*/];
                 }
             });
         });
     };
-    return UpdateTransactionByIdUseCase;
+    return DeleteCreditCardByIdUseCase;
 }());
-exports.UpdateTransactionByIdUseCase = UpdateTransactionByIdUseCase;
-//# sourceMappingURL=UpdateTransactionByIdUseCase.js.map
+exports.DeleteCreditCardByIdUseCase = DeleteCreditCardByIdUseCase;
+//# sourceMappingURL=DeleteCreditCardByIdUseCase.js.map

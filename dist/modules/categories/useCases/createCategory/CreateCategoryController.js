@@ -36,61 +36,38 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.UpdateTransactionByIdUseCase = void 0;
-var AppError_1 = require("../../../../errors/AppError");
-var client_1 = require("../../../../prisma/client");
-var UpdateTransactionByIdUseCase = /** @class */ (function () {
-    function UpdateTransactionByIdUseCase() {
+exports.CreateCategoryController = void 0;
+var CreateCategoryUseCase_1 = require("./CreateCategoryUseCase");
+var auth_1 = require("../../../../middlewares/auth");
+var CreateCategoryController = /** @class */ (function () {
+    function CreateCategoryController() {
     }
-    UpdateTransactionByIdUseCase.prototype.execute = function (_a) {
-        return __awaiter(this, arguments, void 0, function (_b) {
-            var transactionExists, checkingAccount, transactionUpdated;
-            var id = _b.id, name = _b.name, date = _b.date, value = _b.value, balanceAdjustment = _b.balanceAdjustment, type = _b.type, creditCardId = _b.creditCardId, categoryId = _b.categoryId, checkingAccountId = _b.checkingAccountId;
-            return __generator(this, function (_c) {
-                switch (_c.label) {
-                    case 0: return [4 /*yield*/, client_1.prisma.transaction.findUnique({
-                            where: {
-                                id: id,
-                            },
-                        })];
+    CreateCategoryController.prototype.handle = function (req, res) {
+        return __awaiter(this, void 0, void 0, function () {
+            var name, user, createCategoryUseCase, result;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        name = req.body.name;
+                        return [4 /*yield*/, auth_1.VerifyToken.handleFoundUser(req)];
                     case 1:
-                        transactionExists = _c.sent();
-                        if (!transactionExists) {
-                            throw new AppError_1.AppError("Transaction not found");
+                        user = _a.sent();
+                        if (!(user === null || user === void 0 ? void 0 : user.userId)) {
+                            return [2 /*return*/, res.status(401).json({ message: "Unauthorized" })];
                         }
-                        return [4 /*yield*/, client_1.prisma.checkingAccount.findUnique({
-                                where: {
-                                    id: checkingAccountId,
-                                },
+                        createCategoryUseCase = new CreateCategoryUseCase_1.CreateCategoryUseCase();
+                        return [4 /*yield*/, createCategoryUseCase.execute({
+                                userId: user.userId,
+                                name: name,
                             })];
                     case 2:
-                        checkingAccount = _c.sent();
-                        if (!checkingAccount) {
-                            throw new AppError_1.AppError("Checking account not found", 404);
-                        }
-                        return [4 /*yield*/, client_1.prisma.transaction.update({
-                                where: {
-                                    id: id,
-                                },
-                                data: {
-                                    name: name,
-                                    balanceAdjustment: balanceAdjustment,
-                                    type: type,
-                                    date: date,
-                                    value: value,
-                                    creditCardId: creditCardId,
-                                    categoryId: categoryId,
-                                    checkingAccountId: checkingAccountId,
-                                },
-                            })];
-                    case 3:
-                        transactionUpdated = _c.sent();
-                        return [2 /*return*/, transactionUpdated];
+                        result = _a.sent();
+                        return [2 /*return*/, res.status(201).json(result)];
                 }
             });
         });
     };
-    return UpdateTransactionByIdUseCase;
+    return CreateCategoryController;
 }());
-exports.UpdateTransactionByIdUseCase = UpdateTransactionByIdUseCase;
-//# sourceMappingURL=UpdateTransactionByIdUseCase.js.map
+exports.CreateCategoryController = CreateCategoryController;
+//# sourceMappingURL=CreateCategoryController.js.map

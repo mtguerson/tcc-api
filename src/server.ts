@@ -1,5 +1,4 @@
 import "express-async-errors";
-import swaggerSetup from './swagger/swaggerConfig.js';
 import express, { NextFunction, Request, Response } from "express";
 import { routes } from "./routes";
 import { AppError } from "./errors/AppError";
@@ -8,6 +7,7 @@ dotenv.config();
 
 const app = express();
 const cors = require("cors");
+const swaggerSetup = require('./swagger/swaggerConfig.js');
 
 swaggerSetup(app);
 

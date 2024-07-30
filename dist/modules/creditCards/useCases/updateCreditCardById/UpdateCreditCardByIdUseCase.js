@@ -36,61 +36,64 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.UpdateTransactionByIdUseCase = void 0;
+exports.UpdateCreditCardByIdUseCase = void 0;
 var AppError_1 = require("../../../../errors/AppError");
 var client_1 = require("../../../../prisma/client");
-var UpdateTransactionByIdUseCase = /** @class */ (function () {
-    function UpdateTransactionByIdUseCase() {
+var UpdateCreditCardByIdUseCase = /** @class */ (function () {
+    function UpdateCreditCardByIdUseCase() {
     }
-    UpdateTransactionByIdUseCase.prototype.execute = function (_a) {
+    UpdateCreditCardByIdUseCase.prototype.execute = function (_a) {
         return __awaiter(this, arguments, void 0, function (_b) {
-            var transactionExists, checkingAccount, transactionUpdated;
-            var id = _b.id, name = _b.name, date = _b.date, value = _b.value, balanceAdjustment = _b.balanceAdjustment, type = _b.type, creditCardId = _b.creditCardId, categoryId = _b.categoryId, checkingAccountId = _b.checkingAccountId;
+            var creditCardExists, creditCardNameExists, creditCardUpdated;
+            var userId = _b.userId, id = _b.id, closingDate = _b.closingDate, invoice = _b.invoice, lastDigits = _b.lastDigits, limit = _b.limit, name = _b.name;
             return __generator(this, function (_c) {
                 switch (_c.label) {
-                    case 0: return [4 /*yield*/, client_1.prisma.transaction.findUnique({
+                    case 0: return [4 /*yield*/, client_1.prisma.creditCard.findUnique({
                             where: {
-                                id: id,
-                            },
+                                id: id
+                            }
                         })];
                     case 1:
-                        transactionExists = _c.sent();
-                        if (!transactionExists) {
-                            throw new AppError_1.AppError("Transaction not found");
+                        creditCardExists = _c.sent();
+                        if (!creditCardExists) {
+                            throw new AppError_1.AppError('Credit card not found');
                         }
-                        return [4 /*yield*/, client_1.prisma.checkingAccount.findUnique({
+                        if (!(creditCardExists.name !== name)) return [3 /*break*/, 3];
+                        return [4 /*yield*/, client_1.prisma.creditCard.findFirst({
                                 where: {
-                                    id: checkingAccountId,
-                                },
+                                    userId: userId,
+                                    name: name,
+                                    NOT: {
+                                        id: id
+                                    }
+                                }
                             })];
                     case 2:
-                        checkingAccount = _c.sent();
-                        if (!checkingAccount) {
-                            throw new AppError_1.AppError("Checking account not found", 404);
+                        creditCardNameExists = _c.sent();
+                        if (creditCardNameExists) {
+                            throw new AppError_1.AppError('Another credit card with this name already exists for this user');
                         }
-                        return [4 /*yield*/, client_1.prisma.transaction.update({
-                                where: {
-                                    id: id,
-                                },
-                                data: {
-                                    name: name,
-                                    balanceAdjustment: balanceAdjustment,
-                                    type: type,
-                                    date: date,
-                                    value: value,
-                                    creditCardId: creditCardId,
-                                    categoryId: categoryId,
-                                    checkingAccountId: checkingAccountId,
-                                },
-                            })];
-                    case 3:
-                        transactionUpdated = _c.sent();
-                        return [2 /*return*/, transactionUpdated];
+                        _c.label = 3;
+                    case 3: return [4 /*yield*/, client_1.prisma.creditCard.update({
+                            where: {
+                                id: id
+                            },
+                            data: {
+                                name: name,
+                                closingDate: closingDate,
+                                invoice: invoice,
+                                lastDigits: lastDigits,
+                                limit: limit,
+                            }
+                        })];
+                    case 4:
+                        creditCardUpdated = _c.sent();
+                        return [2 /*return*/, creditCardUpdated];
                 }
             });
         });
     };
-    return UpdateTransactionByIdUseCase;
+    return UpdateCreditCardByIdUseCase;
 }());
-exports.UpdateTransactionByIdUseCase = UpdateTransactionByIdUseCase;
-//# sourceMappingURL=UpdateTransactionByIdUseCase.js.map
+exports.UpdateCreditCardByIdUseCase = UpdateCreditCardByIdUseCase;
+//# sourceMappingURL=UpdateCreditCardByIdUseCase.js.map

@@ -36,61 +36,34 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.UpdateTransactionByIdUseCase = void 0;
-var AppError_1 = require("../../../../errors/AppError");
+exports.GetCreditCardByUserIdUseCase = void 0;
 var client_1 = require("../../../../prisma/client");
-var UpdateTransactionByIdUseCase = /** @class */ (function () {
-    function UpdateTransactionByIdUseCase() {
+var AppError_1 = require("../../../../errors/AppError");
+var GetCreditCardByUserIdUseCase = /** @class */ (function () {
+    function GetCreditCardByUserIdUseCase() {
     }
-    UpdateTransactionByIdUseCase.prototype.execute = function (_a) {
+    GetCreditCardByUserIdUseCase.prototype.execute = function (_a) {
         return __awaiter(this, arguments, void 0, function (_b) {
-            var transactionExists, checkingAccount, transactionUpdated;
-            var id = _b.id, name = _b.name, date = _b.date, value = _b.value, balanceAdjustment = _b.balanceAdjustment, type = _b.type, creditCardId = _b.creditCardId, categoryId = _b.categoryId, checkingAccountId = _b.checkingAccountId;
+            var creditCard;
+            var userId = _b.userId;
             return __generator(this, function (_c) {
                 switch (_c.label) {
-                    case 0: return [4 /*yield*/, client_1.prisma.transaction.findUnique({
+                    case 0: return [4 /*yield*/, client_1.prisma.creditCard.findMany({
                             where: {
-                                id: id,
-                            },
+                                userId: userId
+                            }
                         })];
                     case 1:
-                        transactionExists = _c.sent();
-                        if (!transactionExists) {
-                            throw new AppError_1.AppError("Transaction not found");
+                        creditCard = _c.sent();
+                        if (creditCard.length === 0) {
+                            throw new AppError_1.AppError("Not found!", 404);
                         }
-                        return [4 /*yield*/, client_1.prisma.checkingAccount.findUnique({
-                                where: {
-                                    id: checkingAccountId,
-                                },
-                            })];
-                    case 2:
-                        checkingAccount = _c.sent();
-                        if (!checkingAccount) {
-                            throw new AppError_1.AppError("Checking account not found", 404);
-                        }
-                        return [4 /*yield*/, client_1.prisma.transaction.update({
-                                where: {
-                                    id: id,
-                                },
-                                data: {
-                                    name: name,
-                                    balanceAdjustment: balanceAdjustment,
-                                    type: type,
-                                    date: date,
-                                    value: value,
-                                    creditCardId: creditCardId,
-                                    categoryId: categoryId,
-                                    checkingAccountId: checkingAccountId,
-                                },
-                            })];
-                    case 3:
-                        transactionUpdated = _c.sent();
-                        return [2 /*return*/, transactionUpdated];
+                        return [2 /*return*/, creditCard];
                 }
             });
         });
     };
-    return UpdateTransactionByIdUseCase;
+    return GetCreditCardByUserIdUseCase;
 }());
-exports.UpdateTransactionByIdUseCase = UpdateTransactionByIdUseCase;
-//# sourceMappingURL=UpdateTransactionByIdUseCase.js.map
+exports.GetCreditCardByUserIdUseCase = GetCreditCardByUserIdUseCase;
+//# sourceMappingURL=GetCreditCardByUserIdUseCase.js.map

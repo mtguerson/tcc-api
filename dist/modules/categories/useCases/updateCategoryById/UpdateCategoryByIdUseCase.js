@@ -36,61 +36,62 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.UpdateTransactionByIdUseCase = void 0;
+exports.UpdateCategoryByIdUseCase = void 0;
 var AppError_1 = require("../../../../errors/AppError");
 var client_1 = require("../../../../prisma/client");
-var UpdateTransactionByIdUseCase = /** @class */ (function () {
-    function UpdateTransactionByIdUseCase() {
+var UpdateCategoryByIdUseCase = /** @class */ (function () {
+    function UpdateCategoryByIdUseCase() {
     }
-    UpdateTransactionByIdUseCase.prototype.execute = function (_a) {
+    UpdateCategoryByIdUseCase.prototype.execute = function (_a) {
         return __awaiter(this, arguments, void 0, function (_b) {
-            var transactionExists, checkingAccount, transactionUpdated;
-            var id = _b.id, name = _b.name, date = _b.date, value = _b.value, balanceAdjustment = _b.balanceAdjustment, type = _b.type, creditCardId = _b.creditCardId, categoryId = _b.categoryId, checkingAccountId = _b.checkingAccountId;
+            var categoryExists, categoryNameExists, categoryUpdated;
+            var name = _b.name, userId = _b.userId, id = _b.id;
             return __generator(this, function (_c) {
                 switch (_c.label) {
-                    case 0: return [4 /*yield*/, client_1.prisma.transaction.findUnique({
+                    case 0: return [4 /*yield*/, client_1.prisma.category.findUnique({
                             where: {
-                                id: id,
-                            },
+                                id: id
+                            }
                         })];
                     case 1:
-                        transactionExists = _c.sent();
-                        if (!transactionExists) {
-                            throw new AppError_1.AppError("Transaction not found");
+                        categoryExists = _c.sent();
+                        if (!categoryExists) {
+                            throw new AppError_1.AppError('Category not found');
                         }
-                        return [4 /*yield*/, client_1.prisma.checkingAccount.findUnique({
+                        if (!(categoryExists.name !== name)) return [3 /*break*/, 3];
+                        return [4 /*yield*/, client_1.prisma.category.findFirst({
                                 where: {
-                                    id: checkingAccountId,
-                                },
+                                    userId: userId,
+                                    name: name,
+                                    NOT: {
+                                        id: id
+                                    }
+                                }
                             })];
                     case 2:
-                        checkingAccount = _c.sent();
-                        if (!checkingAccount) {
-                            throw new AppError_1.AppError("Checking account not found", 404);
+                        categoryNameExists = _c.sent();
+                        if (categoryNameExists) {
+                            throw new AppError_1.AppError('Another category with this name already exists for this user');
                         }
-                        return [4 /*yield*/, client_1.prisma.transaction.update({
-                                where: {
-                                    id: id,
-                                },
-                                data: {
-                                    name: name,
-                                    balanceAdjustment: balanceAdjustment,
-                                    type: type,
-                                    date: date,
-                                    value: value,
-                                    creditCardId: creditCardId,
-                                    categoryId: categoryId,
-                                    checkingAccountId: checkingAccountId,
-                                },
-                            })];
-                    case 3:
-                        transactionUpdated = _c.sent();
-                        return [2 /*return*/, transactionUpdated];
+                        _c.label = 3;
+                    case 3: return [4 /*yield*/, client_1.prisma.category.update({
+                            where: {
+                                id: id
+                            },
+                            data: {
+                                name: name,
+                                id: id,
+                                userId: userId
+                            }
+                        })];
+                    case 4:
+                        categoryUpdated = _c.sent();
+                        return [2 /*return*/, categoryUpdated];
                 }
             });
         });
     };
-    return UpdateTransactionByIdUseCase;
+    return UpdateCategoryByIdUseCase;
 }());
-exports.UpdateTransactionByIdUseCase = UpdateTransactionByIdUseCase;
-//# sourceMappingURL=UpdateTransactionByIdUseCase.js.map
+exports.UpdateCategoryByIdUseCase = UpdateCategoryByIdUseCase;
+//# sourceMappingURL=UpdateCategoryByIdUseCase.js.map

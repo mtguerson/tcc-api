@@ -36,61 +36,42 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.UpdateTransactionByIdUseCase = void 0;
-var AppError_1 = require("../../../../errors/AppError");
-var client_1 = require("../../../../prisma/client");
-var UpdateTransactionByIdUseCase = /** @class */ (function () {
-    function UpdateTransactionByIdUseCase() {
+exports.CreateCreditCardController = void 0;
+var auth_1 = require("../../../../middlewares/auth");
+var CreateCreditCardUseCase_1 = require("./CreateCreditCardUseCase");
+var CreateCreditCardController = /** @class */ (function () {
+    function CreateCreditCardController() {
     }
-    UpdateTransactionByIdUseCase.prototype.execute = function (_a) {
-        return __awaiter(this, arguments, void 0, function (_b) {
-            var transactionExists, checkingAccount, transactionUpdated;
-            var id = _b.id, name = _b.name, date = _b.date, value = _b.value, balanceAdjustment = _b.balanceAdjustment, type = _b.type, creditCardId = _b.creditCardId, categoryId = _b.categoryId, checkingAccountId = _b.checkingAccountId;
-            return __generator(this, function (_c) {
-                switch (_c.label) {
-                    case 0: return [4 /*yield*/, client_1.prisma.transaction.findUnique({
-                            where: {
-                                id: id,
-                            },
-                        })];
+    CreateCreditCardController.prototype.handle = function (req, res) {
+        return __awaiter(this, void 0, void 0, function () {
+            var _a, name, closingDate, invoice, lastDigits, limit, user, createCreditCardUseCase, result;
+            return __generator(this, function (_b) {
+                switch (_b.label) {
+                    case 0:
+                        _a = req.body, name = _a.name, closingDate = _a.closingDate, invoice = _a.invoice, lastDigits = _a.lastDigits, limit = _a.limit;
+                        return [4 /*yield*/, auth_1.VerifyToken.handleFoundUser(req)];
                     case 1:
-                        transactionExists = _c.sent();
-                        if (!transactionExists) {
-                            throw new AppError_1.AppError("Transaction not found");
+                        user = _b.sent();
+                        if (!(user === null || user === void 0 ? void 0 : user.userId)) {
+                            return [2 /*return*/, res.status(401).json({ message: "Unauthorized" })];
                         }
-                        return [4 /*yield*/, client_1.prisma.checkingAccount.findUnique({
-                                where: {
-                                    id: checkingAccountId,
-                                },
+                        createCreditCardUseCase = new CreateCreditCardUseCase_1.CreateCreditCardUseCase();
+                        return [4 /*yield*/, createCreditCardUseCase.execute({
+                                userId: user.userId,
+                                name: name,
+                                closingDate: closingDate,
+                                invoice: invoice,
+                                lastDigits: lastDigits,
+                                limit: limit
                             })];
                     case 2:
-                        checkingAccount = _c.sent();
-                        if (!checkingAccount) {
-                            throw new AppError_1.AppError("Checking account not found", 404);
-                        }
-                        return [4 /*yield*/, client_1.prisma.transaction.update({
-                                where: {
-                                    id: id,
-                                },
-                                data: {
-                                    name: name,
-                                    balanceAdjustment: balanceAdjustment,
-                                    type: type,
-                                    date: date,
-                                    value: value,
-                                    creditCardId: creditCardId,
-                                    categoryId: categoryId,
-                                    checkingAccountId: checkingAccountId,
-                                },
-                            })];
-                    case 3:
-                        transactionUpdated = _c.sent();
-                        return [2 /*return*/, transactionUpdated];
+                        result = _b.sent();
+                        return [2 /*return*/, res.status(201).json(result)];
                 }
             });
         });
     };
-    return UpdateTransactionByIdUseCase;
+    return CreateCreditCardController;
 }());
-exports.UpdateTransactionByIdUseCase = UpdateTransactionByIdUseCase;
-//# sourceMappingURL=UpdateTransactionByIdUseCase.js.map
+exports.CreateCreditCardController = CreateCreditCardController;
+//# sourceMappingURL=CreateCreditCardController.js.map

@@ -39,90 +39,101 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.CreateUserUseCase = void 0;
+exports.UpdateUserUseCase = void 0;
 var client_1 = require("../../../../prisma/client");
 var AppError_1 = require("../../../../errors/AppError");
 var bcrypt_1 = __importDefault(require("bcrypt"));
 var jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
-var defaultCategories = ["Salário", "Casa", "Alimentação", "Mercado", "Viagem"];
-var CreateUserUseCase = /** @class */ (function () {
-    function CreateUserUseCase() {
+var UpdateUserUseCase = /** @class */ (function () {
+    function UpdateUserUseCase() {
     }
-    CreateUserUseCase.prototype.execute = function (_a) {
-        return __awaiter(this, arguments, void 0, function (_b) {
-            var userAlreadyExists, phoneAlreadyTaken, usernameAlreadyTaken, passwordSalt, salt, hashedPassword, user, jwtUserInfo, token;
+    UpdateUserUseCase.prototype.execute = function (userId_1, _a) {
+        return __awaiter(this, arguments, void 0, function (userId, _b) {
+            var user, emailAlreadyTaken, phoneAlreadyTaken, usernameAlreadyTaken, hashedPassword, passwordSalt, salt, updatedUser, jwtUserInfo, token;
             var name = _b.name, username = _b.username, email = _b.email, password = _b.password, phone = _b.phone;
             return __generator(this, function (_c) {
                 switch (_c.label) {
                     case 0: return [4 /*yield*/, client_1.prisma.user.findUnique({
-                            where: {
-                                email: email,
-                            },
+                            where: { id: userId },
                         })];
                     case 1:
-                        userAlreadyExists = _c.sent();
-                        if (userAlreadyExists) {
-                            throw new AppError_1.AppError("User already exists");
+                        user = _c.sent();
+                        if (!user) {
+                            throw new AppError_1.AppError("User not found");
                         }
+                        if (!(email && email !== user.email)) return [3 /*break*/, 3];
                         return [4 /*yield*/, client_1.prisma.user.findUnique({
-                                where: {
-                                    phone: phone,
-                                },
+                                where: { email: email },
                             })];
                     case 2:
+                        emailAlreadyTaken = _c.sent();
+                        if (emailAlreadyTaken) {
+                            throw new AppError_1.AppError("Email already taken");
+                        }
+                        _c.label = 3;
+                    case 3:
+                        if (!(phone && phone !== user.phone)) return [3 /*break*/, 5];
+                        return [4 /*yield*/, client_1.prisma.user.findUnique({
+                                where: { phone: phone },
+                            })];
+                    case 4:
                         phoneAlreadyTaken = _c.sent();
                         if (phoneAlreadyTaken) {
                             throw new AppError_1.AppError("Phone already taken");
                         }
+                        _c.label = 5;
+                    case 5:
+                        if (!(username && username !== user.username)) return [3 /*break*/, 7];
                         return [4 /*yield*/, client_1.prisma.user.findUnique({
-                                where: {
-                                    username: username
-                                }
+                                where: { username: username },
                             })];
-                    case 3:
+                    case 6:
                         usernameAlreadyTaken = _c.sent();
                         if (usernameAlreadyTaken) {
                             throw new AppError_1.AppError("Username already taken");
                         }
-                        passwordSalt = Number("".concat(process.env.SALT_PASSWORD || 10));
-                        salt = bcrypt_1.default.genSaltSync(passwordSalt);
-                        hashedPassword = bcrypt_1.default.hashSync(password, salt);
-                        return [4 /*yield*/, client_1.prisma.user.create({
+                        _c.label = 7;
+                    case 7:
+                        hashedPassword = user.password;
+                        if (password) {
+                            passwordSalt = Number("".concat(process.env.SALT_PASSWORD || 10));
+                            salt = bcrypt_1.default.genSaltSync(passwordSalt);
+                            hashedPassword = bcrypt_1.default.hashSync(password, salt);
+                        }
+                        return [4 /*yield*/, client_1.prisma.user.update({
+                                where: { id: userId },
                                 data: {
                                     name: name,
                                     username: username,
                                     email: email,
                                     password: hashedPassword,
                                     phone: phone,
-                                    categories: {
-                                        create: defaultCategories.map(function (name) { return ({ name: name }); })
-                                    }
                                 },
                             })];
-                    case 4:
-                        user = _c.sent();
+                    case 8:
+                        updatedUser = _c.sent();
                         jwtUserInfo = {
-                            userId: user.id,
-                            email: user.email,
-                            name: user.name,
-                            username: user.username,
-                            isAdmin: user.isAdmin,
+                            userId: updatedUser.id,
+                            email: updatedUser.email,
+                            name: updatedUser.name,
+                            username: updatedUser.username,
+                            isAdmin: updatedUser.isAdmin,
                         };
                         token = jsonwebtoken_1.default.sign(jwtUserInfo, "".concat(process.env.JWT_SECRET), {
                             expiresIn: "1d",
                         });
                         return [2 /*return*/, {
-                                email: user.email,
-                                name: user.name,
-                                username: user.username,
-                                phone: user.phone,
+                                email: updatedUser.email,
+                                name: updatedUser.name,
+                                username: updatedUser.username,
+                                phone: updatedUser.phone,
                                 accessToken: token,
                             }];
                 }
             });
         });
     };
-    return CreateUserUseCase;
+    return UpdateUserUseCase;
 }());
-exports.CreateUserUseCase = CreateUserUseCase;
-//# sourceMappingURL=CreateUserUseCase.js.map
+exports.UpdateUserUseCase = UpdateUserUseCase;
+//# sourceMappingURL=UpdateUserUseCase.js.map

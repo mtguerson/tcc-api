@@ -15,7 +15,7 @@ var verifyToken = new auth_1.VerifyToken();
 var checkingAccountRoutes = (0, express_1.Router)();
 exports.checkingAccountRoutes = checkingAccountRoutes;
 checkingAccountRoutes.post("/create", verifyToken.handle, createCheckingAccountController.handle);
-checkingAccountRoutes.get("/user", verifyToken.handle, getCheckingAccountByUserIdController.handle);
+checkingAccountRoutes.get("/:id", verifyToken.handle, getCheckingAccountByUserIdController.handle);
 checkingAccountRoutes.delete("/:id", verifyToken.handle, deleteCheckingAccountByIdController.handle);
 checkingAccountRoutes.put("/:id", verifyToken.handle, updateCheckingAccountByIdController.handle);
 //# sourceMappingURL=checkingAccount.routes.js.map

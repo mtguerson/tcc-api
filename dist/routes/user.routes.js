@@ -8,17 +8,20 @@ var DeleteUserController_1 = require("../modules/users/useCases/deleteUserById/D
 var LoginUserController_1 = require("../modules/users/useCases/loginUser/LoginUserController");
 var auth_1 = require("../middlewares/auth");
 var getUserMeController_1 = require("../modules/users/useCases/getUserMe/getUserMeController");
+var UpdateUserController_1 = require("../modules/users/useCases/updateUserById/UpdateUserController");
 var createUserController = new CreateUserController_1.CreateUserController();
 var getUserByUsernameController = new GetUserByUsernameController_1.GetUserByUsernameController();
 var deleteUserController = new DeleteUserController_1.DeleteUserController();
 var loginUserController = new LoginUserController_1.LoginUserController();
 var getUserMeController = new getUserMeController_1.GetUserMeController();
+var updateUserController = new UpdateUserController_1.UpdateUserController();
 var verifyToken = new auth_1.VerifyToken();
 var userRoutes = (0, express_1.Router)();
 exports.userRoutes = userRoutes;
 userRoutes.post("/login", loginUserController.handle);
-userRoutes.get("/me", verifyToken.handle, getUserMeController.handle);
 userRoutes.post("/create", createUserController.handle);
-userRoutes.delete("/delete/:id", verifyToken.handleAdmin, deleteUserController.handle);
+userRoutes.get("/me", verifyToken.handle, getUserMeController.handle);
+userRoutes.delete("/:id", verifyToken.handleAdmin, deleteUserController.handle);
 userRoutes.get("/:username", verifyToken.handle, getUserByUsernameController.handle);
+userRoutes.put("/:id", verifyToken.handle, updateUserController.handle);
 //# sourceMappingURL=user.routes.js.map

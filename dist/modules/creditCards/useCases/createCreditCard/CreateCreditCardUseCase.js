@@ -36,61 +36,68 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.UpdateTransactionByIdUseCase = void 0;
+exports.CreateCreditCardUseCase = void 0;
 var AppError_1 = require("../../../../errors/AppError");
 var client_1 = require("../../../../prisma/client");
-var UpdateTransactionByIdUseCase = /** @class */ (function () {
-    function UpdateTransactionByIdUseCase() {
+var CreateCreditCardUseCase = /** @class */ (function () {
+    function CreateCreditCardUseCase() {
     }
-    UpdateTransactionByIdUseCase.prototype.execute = function (_a) {
+    CreateCreditCardUseCase.prototype.execute = function (_a) {
         return __awaiter(this, arguments, void 0, function (_b) {
-            var transactionExists, checkingAccount, transactionUpdated;
-            var id = _b.id, name = _b.name, date = _b.date, value = _b.value, balanceAdjustment = _b.balanceAdjustment, type = _b.type, creditCardId = _b.creditCardId, categoryId = _b.categoryId, checkingAccountId = _b.checkingAccountId;
+            var userIdExists, creditCardNameExists, creditCardLastDigitsExists, creditCard;
+            var userId = _b.userId, name = _b.name, lastDigits = _b.lastDigits, limit = _b.limit, closingDate = _b.closingDate, invoice = _b.invoice;
             return __generator(this, function (_c) {
                 switch (_c.label) {
-                    case 0: return [4 /*yield*/, client_1.prisma.transaction.findUnique({
+                    case 0: return [4 /*yield*/, client_1.prisma.user.findUnique({
                             where: {
-                                id: id,
-                            },
+                                id: userId
+                            }
                         })];
                     case 1:
-                        transactionExists = _c.sent();
-                        if (!transactionExists) {
-                            throw new AppError_1.AppError("Transaction not found");
+                        userIdExists = _c.sent();
+                        if (!userIdExists) {
+                            throw new AppError_1.AppError('User not found');
                         }
-                        return [4 /*yield*/, client_1.prisma.checkingAccount.findUnique({
+                        return [4 /*yield*/, client_1.prisma.creditCard.findFirst({
                                 where: {
-                                    id: checkingAccountId,
-                                },
+                                    userId: userId,
+                                    name: name
+                                }
                             })];
                     case 2:
-                        checkingAccount = _c.sent();
-                        if (!checkingAccount) {
-                            throw new AppError_1.AppError("Checking account not found", 404);
+                        creditCardNameExists = _c.sent();
+                        if (creditCardNameExists) {
+                            throw new AppError_1.AppError('Credit card name already exists');
                         }
-                        return [4 /*yield*/, client_1.prisma.transaction.update({
+                        return [4 /*yield*/, client_1.prisma.creditCard.findFirst({
                                 where: {
-                                    id: id,
-                                },
-                                data: {
-                                    name: name,
-                                    balanceAdjustment: balanceAdjustment,
-                                    type: type,
-                                    date: date,
-                                    value: value,
-                                    creditCardId: creditCardId,
-                                    categoryId: categoryId,
-                                    checkingAccountId: checkingAccountId,
-                                },
+                                    userId: userId,
+                                    lastDigits: lastDigits
+                                }
                             })];
                     case 3:
-                        transactionUpdated = _c.sent();
-                        return [2 /*return*/, transactionUpdated];
+                        creditCardLastDigitsExists = _c.sent();
+                        if (creditCardLastDigitsExists) {
+                            throw new AppError_1.AppError('Credit card already registered');
+                        }
+                        return [4 /*yield*/, client_1.prisma.creditCard.create({
+                                data: {
+                                    userId: userId,
+                                    name: name,
+                                    closingDate: closingDate,
+                                    invoice: invoice,
+                                    lastDigits: lastDigits,
+                                    limit: limit,
+                                }
+                            })];
+                    case 4:
+                        creditCard = _c.sent();
+                        return [2 /*return*/, creditCard];
                 }
             });
         });
     };
-    return UpdateTransactionByIdUseCase;
+    return CreateCreditCardUseCase;
 }());
-exports.UpdateTransactionByIdUseCase = UpdateTransactionByIdUseCase;
-//# sourceMappingURL=UpdateTransactionByIdUseCase.js.map
+exports.CreateCreditCardUseCase = CreateCreditCardUseCase;
+//# sourceMappingURL=CreateCreditCardUseCase.js.map
