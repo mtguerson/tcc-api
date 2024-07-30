@@ -16,11 +16,16 @@ const verifyToken = new VerifyToken();
 const userRoutes = Router();
 
 userRoutes.post("/login", loginUserController.handle);
-userRoutes.get("/me", verifyToken.handle, getUserMeController.handle);
 userRoutes.post("/create", createUserController.handle);
 
+userRoutes.get(
+  "/me",
+  verifyToken.handle,
+  getUserMeController.handle
+);
+
 userRoutes.delete(
-  "/delete/:id",
+  "/:id",
   verifyToken.handleAdmin,
   deleteUserController.handle
 );

@@ -61,26 +61,28 @@ export class CreateTransactionUseCase {
       throw new AppError("Insufficient funds in the checking account", 400);
     }
 
-    await prisma.checkingAccount.update({
-      where: {
-        id: checkingAccountId,
-      },
-      data: {
-        balance: updatedBalance.toNumber(),
-      },
-    });
+    const transaction = await prisma.$transaction(async (prisma) => {
+      await prisma.checkingAccount.update({
+        where: {
+          id: checkingAccountId,
+        },
+        data: {
+          balance: updatedBalance.toNumber(),
+        },
+      });
 
-    const transaction = await prisma.transaction.create({
-      data: {
-        checkingAccountId,
-        name,
-        date,
-        value,
-        balanceAdjustment,
-        type,
-        creditCardId,
-        categoryId,
-      },
+      return prisma.transaction.create({
+        data: {
+          checkingAccountId,
+          name,
+          date,
+          value,
+          balanceAdjustment,
+          type,
+          creditCardId,
+          categoryId,
+        },
+      });
     });
 
     return transaction;
