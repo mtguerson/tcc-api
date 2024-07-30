@@ -5,12 +5,14 @@ import { DeleteUserController } from "../modules/users/useCases/deleteUserById/D
 import { LoginUserController } from "../modules/users/useCases/loginUser/LoginUserController";
 import { VerifyToken } from "../middlewares/auth";
 import { GetUserMeController } from "../modules/users/useCases/getUserMe/getUserMeController";
+import { UpdateUserController } from "../modules/users/useCases/updateUserById/UpdateUserController";
 
 const createUserController = new CreateUserController();
 const getUserByUsernameController = new GetUserByUsernameController();
 const deleteUserController = new DeleteUserController();
 const loginUserController = new LoginUserController();
 const getUserMeController = new GetUserMeController();
+const updateUserController = new UpdateUserController();
 const verifyToken = new VerifyToken();
 
 const userRoutes = Router();
@@ -34,6 +36,12 @@ userRoutes.get(
   "/:username",
   verifyToken.handle,
   getUserByUsernameController.handle
+);
+
+userRoutes.put(
+  "/:id",
+  verifyToken.handle,
+  updateUserController.handle
 );
 
 export { userRoutes };
