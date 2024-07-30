@@ -1,6 +1,5 @@
 import { Request, Response } from "express";
 import { CreateUserUseCase } from "./CreateUserUseCase";
-import { VerifyToken } from "../../../../middlewares/auth";
 
 export class CreateUserController {
   async handle(req: Request, res: Response) {

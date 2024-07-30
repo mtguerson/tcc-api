@@ -44,19 +44,19 @@ var UpdateCheckingAccountByIdUseCase = /** @class */ (function () {
     }
     UpdateCheckingAccountByIdUseCase.prototype.execute = function (_a) {
         return __awaiter(this, arguments, void 0, function (_b) {
-            var checkingAccountExists, accountNameExists, checkingAccountUpdated;
+            var checkingAccountExists, accountNameExists, checkingAccountUpdated, isIncome;
             var userId = _b.userId, id = _b.id, name = _b.name, account = _b.account, agency = _b.agency, bank = _b.bank, balance = _b.balance, maintenanceFee = _b.maintenanceFee;
             return __generator(this, function (_c) {
                 switch (_c.label) {
                     case 0: return [4 /*yield*/, client_1.prisma.checkingAccount.findUnique({
                             where: {
-                                id: id
-                            }
+                                id: id,
+                            },
                         })];
                     case 1:
                         checkingAccountExists = _c.sent();
                         if (!checkingAccountExists) {
-                            throw new AppError_1.AppError('Checking Account not found');
+                            throw new AppError_1.AppError("Checking Account not found");
                         }
                         if (!(checkingAccountExists.name !== name)) return [3 /*break*/, 3];
                         return [4 /*yield*/, client_1.prisma.checkingAccount.findFirst({
@@ -64,19 +64,19 @@ var UpdateCheckingAccountByIdUseCase = /** @class */ (function () {
                                     userId: userId,
                                     name: name,
                                     NOT: {
-                                        id: id
-                                    }
-                                }
+                                        id: id,
+                                    },
+                                },
                             })];
                     case 2:
                         accountNameExists = _c.sent();
                         if (accountNameExists) {
-                            throw new AppError_1.AppError('Another account with this name already exists for this user');
+                            throw new AppError_1.AppError("Another account with this name already exists for this user");
                         }
                         _c.label = 3;
                     case 3: return [4 /*yield*/, client_1.prisma.checkingAccount.update({
                             where: {
-                                id: id
+                                id: id,
                             },
                             data: {
                                 name: name,
@@ -84,11 +84,23 @@ var UpdateCheckingAccountByIdUseCase = /** @class */ (function () {
                                 agency: agency,
                                 bank: bank,
                                 balance: balance,
-                                maintenanceFee: maintenanceFee
-                            }
+                                maintenanceFee: maintenanceFee,
+                            },
                         })];
                     case 4:
                         checkingAccountUpdated = _c.sent();
+                        isIncome = checkingAccountExists.balance < balance;
+                        return [4 /*yield*/, client_1.prisma.transaction.create({
+                                data: {
+                                    type: isIncome ? "INCOME" : "OUTCOME",
+                                    name: "Atualização de conta corrente",
+                                    value: balance,
+                                    checkingAccountId: checkingAccountUpdated.id,
+                                    balanceAdjustment: true,
+                                },
+                            })];
+                    case 5:
+                        _c.sent();
                         return [2 /*return*/, checkingAccountUpdated];
                 }
             });

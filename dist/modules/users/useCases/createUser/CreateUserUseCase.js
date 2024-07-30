@@ -44,12 +44,19 @@ var client_1 = require("../../../../prisma/client");
 var AppError_1 = require("../../../../errors/AppError");
 var bcrypt_1 = __importDefault(require("bcrypt"));
 var jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
+var defaultCategories = [
+    "Salário",
+    "Casa",
+    "Alimentação",
+    "Mercado",
+    "Viagem",
+];
 var CreateUserUseCase = /** @class */ (function () {
     function CreateUserUseCase() {
     }
     CreateUserUseCase.prototype.execute = function (_a) {
         return __awaiter(this, arguments, void 0, function (_b) {
-            var userAlreadyExists, phoneAlreadyTaken, usernameAlreadyTaken, passwordSalt, salt, hashedPassword, user, jwtUserInfo, token;
+            var userAlreadyExists, phoneAlreadyTaken, passwordSalt, salt, hashedPassword, user, jwtUserInfo, token;
             var name = _b.name, username = _b.username, email = _b.email, password = _b.password, phone = _b.phone;
             return __generator(this, function (_c) {
                 switch (_c.label) {
@@ -73,16 +80,6 @@ var CreateUserUseCase = /** @class */ (function () {
                         if (phoneAlreadyTaken) {
                             throw new AppError_1.AppError("Phone already taken");
                         }
-                        return [4 /*yield*/, client_1.prisma.user.findUnique({
-                                where: {
-                                    username: username
-                                }
-                            })];
-                    case 3:
-                        usernameAlreadyTaken = _c.sent();
-                        if (usernameAlreadyTaken) {
-                            throw new AppError_1.AppError("Username already taken");
-                        }
                         passwordSalt = Number("".concat(process.env.SALT_PASSWORD || 10));
                         salt = bcrypt_1.default.genSaltSync(passwordSalt);
                         hashedPassword = bcrypt_1.default.hashSync(password, salt);
@@ -93,9 +90,12 @@ var CreateUserUseCase = /** @class */ (function () {
                                     email: email,
                                     password: hashedPassword,
                                     phone: phone,
+                                    categories: {
+                                        create: defaultCategories.map(function (name) { return ({ name: name }); }),
+                                    },
                                 },
                             })];
-                    case 4:
+                    case 3:
                         user = _c.sent();
                         jwtUserInfo = {
                             userId: user.id,

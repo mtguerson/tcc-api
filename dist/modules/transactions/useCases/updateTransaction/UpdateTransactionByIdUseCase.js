@@ -74,6 +74,8 @@ var UpdateTransactionByIdUseCase = /** @class */ (function () {
                                 },
                                 data: {
                                     name: name,
+                                    balanceAdjustment: balanceAdjustment,
+                                    type: type,
                                     date: date,
                                     value: value,
                                     creditCardId: creditCardId,

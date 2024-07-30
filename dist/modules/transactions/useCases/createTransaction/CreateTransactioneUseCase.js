@@ -49,6 +49,7 @@ var CreateTransactionUseCase = /** @class */ (function () {
     CreateTransactionUseCase.prototype.execute = function (_a) {
         return __awaiter(this, arguments, void 0, function (_b) {
             var checkingAccount, creditCardExists, categoryExists, updatedBalance, transaction;
+            var _this = this;
             var name = _b.name, date = _b.date, value = _b.value, balanceAdjustment = _b.balanceAdjustment, type = _b.type, creditCardId = _b.creditCardId, categoryId = _b.categoryId, checkingAccountId = _b.checkingAccountId;
             return __generator(this, function (_c) {
                 switch (_c.label) {
@@ -95,29 +96,35 @@ var CreateTransactionUseCase = /** @class */ (function () {
                         if (updatedBalance.isNegative()) {
                             throw new AppError_1.AppError("Insufficient funds in the checking account", 400);
                         }
-                        return [4 /*yield*/, client_1.prisma.checkingAccount.update({
-                                where: {
-                                    id: checkingAccountId,
-                                },
-                                data: {
-                                    balance: updatedBalance.toNumber(),
-                                },
-                            })];
+                        return [4 /*yield*/, client_1.prisma.$transaction(function (prisma) { return __awaiter(_this, void 0, void 0, function () {
+                                return __generator(this, function (_a) {
+                                    switch (_a.label) {
+                                        case 0: return [4 /*yield*/, prisma.checkingAccount.update({
+                                                where: {
+                                                    id: checkingAccountId,
+                                                },
+                                                data: {
+                                                    balance: updatedBalance.toNumber(),
+                                                },
+                                            })];
+                                        case 1:
+                                            _a.sent();
+                                            return [2 /*return*/, prisma.transaction.create({
+                                                    data: {
+                                                        checkingAccountId: checkingAccountId,
+                                                        name: name,
+                                                        date: date,
+                                                        value: value,
+                                                        balanceAdjustment: balanceAdjustment,
+                                                        type: type,
+                                                        creditCardId: creditCardId,
+                                                        categoryId: categoryId,
+                                                    },
+                                                })];
+                                    }
+                                });
+                            }); })];
                     case 6:
-                        _c.sent();
-                        return [4 /*yield*/, client_1.prisma.transaction.create({
-                                data: {
-                                    checkingAccountId: checkingAccountId,
-                                    name: name,
-                                    date: date,
-                                    value: value,
-                                    balanceAdjustment: balanceAdjustment,
-                                    type: type,
-                                    creditCardId: creditCardId,
-                                    categoryId: categoryId,
-                                },
-                            })];
-                    case 7:
                         transaction = _c.sent();
                         return [2 /*return*/, transaction];
                 }

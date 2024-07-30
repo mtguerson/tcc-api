@@ -50,24 +50,24 @@ var CreateCheckingAccountUseCase = /** @class */ (function () {
                 switch (_c.label) {
                     case 0: return [4 /*yield*/, client_1.prisma.user.findUnique({
                             where: {
-                                id: userId
-                            }
+                                id: userId,
+                            },
                         })];
                     case 1:
                         userIdExists = _c.sent();
                         if (!userIdExists) {
-                            throw new AppError_1.AppError('User not found');
+                            throw new AppError_1.AppError("User not found");
                         }
                         return [4 /*yield*/, client_1.prisma.checkingAccount.findFirst({
                                 where: {
                                     userId: userId,
-                                    name: name
-                                }
+                                    name: name,
+                                },
                             })];
                     case 2:
                         checkingAccountNameExists = _c.sent();
                         if (checkingAccountNameExists) {
-                            throw new AppError_1.AppError('Checking account name already exists');
+                            throw new AppError_1.AppError("Checking account name already exists");
                         }
                         return [4 /*yield*/, client_1.prisma.checkingAccount.create({
                                 data: {
@@ -77,11 +77,22 @@ var CreateCheckingAccountUseCase = /** @class */ (function () {
                                     agency: agency,
                                     bank: bank,
                                     balance: balance,
-                                    maintenanceFee: maintenanceFee
-                                }
+                                    maintenanceFee: maintenanceFee,
+                                },
                             })];
                     case 3:
                         checkingAccount = _c.sent();
+                        return [4 /*yield*/, client_1.prisma.transaction.create({
+                                data: {
+                                    type: "INCOME",
+                                    name: "Criação de conta corrente",
+                                    value: balance,
+                                    checkingAccountId: checkingAccount.id,
+                                    balanceAdjustment: true,
+                                },
+                            })];
+                    case 4:
+                        _c.sent();
                         return [2 /*return*/, checkingAccount];
                 }
             });
