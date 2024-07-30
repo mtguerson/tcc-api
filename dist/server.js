@@ -12,7 +12,12 @@ var dotenv_1 = __importDefault(require("dotenv"));
 dotenv_1.default.config();
 var app = (0, express_1.default)();
 var cors = require("cors");
+<<<<<<< HEAD
 (0, swaggerConfig_js_1.default)(app);
+=======
+var swaggerSetup = require('./swagger/swaggerConfig.js');
+swaggerSetup(app);
+>>>>>>> main
 // Use the CORS middleware
 app.use(cors({
     origin: "http://localhost:5173", // Allow requests from this origin
