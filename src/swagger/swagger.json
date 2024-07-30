@@ -1,0 +1,2058 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Finances API",
+    "version": "1.0.0",
+    "description": "API do Finances Bot"
+  },
+  "paths": {
+    "/users/create": {
+      "post": {
+        "tags": ["User"],
+        "summary": "Cria um novo usuário",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "description": "Nome do usuário",
+                    "example": "John Doe"
+                  },
+                  "username": {
+                    "type": "string",
+                    "description": "Username do usuário",
+                    "example": "johndoe"
+                  },
+                  "email": {
+                    "type": "string",
+                    "description": "Email do usuário",
+                    "example": "user@example.com"
+                  },
+                  "password": {
+                    "type": "string",
+                    "description": "Senha do usuário",
+                    "example": "password123"
+                  },
+                  "phone": {
+                    "type": "string",
+                    "description": "Telefone do usuário",
+                    "example": "11912345678"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Usuário criado com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "integer",
+                      "description": "ID do usuário",
+                      "example": 1
+                    },
+                    "name": {
+                      "type": "string",
+                      "description": "Nome do usuário",
+                      "example": "John Doe"
+                    },
+                    "username": {
+                      "type": "string",
+                      "description": "Username do usuário",
+                      "example": "johndoe"
+                    },
+                    "email": {
+                      "type": "string",
+                      "description": "Email do usuário",
+                      "example": "user@example.com"
+                    },
+                    "phone": {
+                      "type": "string",
+                      "description": "Telefone do usuário",
+                      "example": "11912345678"
+                    },
+                    "accessToken": {
+                      "type": "string",
+                      "description": "Token JWT para autenticação",
+                      "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Requisição inválida",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Mensagem de erro",
+                      "example": "Dados inválidos"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/login": {
+      "post": {
+        "tags": ["User"],
+        "summary": "Realiza login do usuário",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": {
+                    "type": "string",
+                    "description": "Email do usuário",
+                    "example": "user@example.com"
+                  },
+                  "password": {
+                    "type": "string",
+                    "description": "Senha do usuário",
+                    "example": "password123"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Login realizado com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "accessToken": {
+                      "type": "string",
+                      "description": "Token JWT para autenticação",
+                      "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Requisição inválida",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Mensagem de erro",
+                      "example": "Invalid credentials"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Usuário não encontrado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Mensagem de erro",
+                      "example": "User not found"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/{id}": {
+      "delete": {
+        "tags": ["User"],
+        "summary": "Deleta um usuário pelo ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "ID do usuário"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Usuário deletado com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Mensagem de sucesso",
+                      "example": "User deleted successfully"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Usuário não encontrado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Mensagem de erro",
+                      "example": "User does not exist"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/users/{username}": {
+      "get": {
+        "tags": ["User"],
+        "summary": "Obtém um usuário pelo nome de usuário",
+        "parameters": [
+          {
+            "name": "username",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Nome de usuário"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Usuário obtido com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "description": "ID do usuário",
+                      "example": "cc2f2d38-b44f-47eb-973b-b3bd984d7936"
+                    },
+                    "name": {
+                      "type": "string",
+                      "description": "Nome do usuário",
+                      "example": "John Doe"
+                    },
+                    "username": {
+                      "type": "string",
+                      "description": "Nome de usuário",
+                      "example": "john_doe"
+                    },
+                    "email": {
+                      "type": "string",
+                      "description": "Email do usuário",
+                      "example": "user@example.com"
+                    },
+                    "password": {
+                      "type": "string",
+                      "description": "Senha do usuário",
+                      "example": "password123"
+                    },
+                    "phone": {
+                      "type": "string",
+                      "description": "Telefone do usuário",
+                      "example": "11912345678"
+                    },
+                    "isAdmin": {
+                      "type": "boolean",
+                      "description": "Usuário é administrador",
+                      "example": false
+                    },
+                    "token": {
+                      "type": "string",
+                      "description": "Token do usuário",
+                      "example": "3882b2b4-9106-44bf-98d9-758fb08f2545"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Usuário não encontrado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Mensagem de erro",
+                      "example": "User not found"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/checkingAccounts/create": {
+      "post": {
+        "tags": ["Checking Account"],
+        "summary": "Cria uma nova conta corrente",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "description": "Nome da conta corrente",
+                    "example": "Minha Conta Corrente"
+                  },
+                  "account": {
+                    "type": "string",
+                    "description": "Número da conta",
+                    "example": "123456-7"
+                  },
+                  "agency": {
+                    "type": "string",
+                    "description": "Número da agência",
+                    "example": "1234"
+                  },
+                  "bank": {
+                    "type": "string",
+                    "description": "Nome do banco",
+                    "example": "Banco do Brasil"
+                  },
+                  "balance": {
+                    "type": "number",
+                    "description": "Saldo inicial",
+                    "example": 1000.50
+                  },
+                  "maintenanceFee": {
+                    "type": "number",
+                    "description": "Taxa de manutenção",
+                    "example": 15.0
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Conta corrente criada com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "description": "ID da conta corrente",
+                      "example": "9b1deb4d-0e14-462e-9a7c-d1a37c41a1e1"
+                    },
+                    "userId": {
+                      "type": "string",
+                      "description": "ID do usuário",
+                      "example": "4b0e3102-0eb2-4547-8108-a649ad57a10c"
+                    },
+                    "name": {
+                      "type": "string",
+                      "description": "Nome da conta corrente",
+                      "example": "Minha Conta Corrente"
+                    },
+                    "account": {
+                      "type": "string",
+                      "description": "Número da conta",
+                      "example": "123456-7"
+                    },
+                    "agency": {
+                      "type": "string",
+                      "description": "Número da agência",
+                      "example": "1234"
+                    },
+                    "bank": {
+                      "type": "string",
+                      "description": "Nome do banco",
+                      "example": "Banco do Brasil"
+                    },
+                    "balance": {
+                      "type": "number",
+                      "description": "Saldo inicial",
+                      "example": 1000.50
+                    },
+                    "maintenanceFee": {
+                      "type": "number",
+                      "description": "Taxa de manutenção",
+                      "example": 15.0
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Requisição inválida",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Mensagem de erro",
+                      "example": "Dados inválidos"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Não autorizado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Mensagem de erro",
+                      "example": "Unauthorized"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Usuário não encontrado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Mensagem de erro",
+                      "example": "User not found"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/checkingAccounts/{id}": {
+      "delete": {
+        "tags": ["Checking Account"],
+        "summary": "Deleta uma conta corrente pelo ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "ID da conta corrente"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Conta corrente deletada com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Mensagem de sucesso",
+                      "example": "CheckingAccount deleted successfully"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Conta corrente não encontrada",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Mensagem de erro",
+                      "example": "CheckingAccount not found"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      },
+      "put": {
+        "tags": ["Checking Account"],
+        "summary": "Atualiza uma conta corrente pelo ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "ID da conta corrente"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "description": "Nome da conta corrente",
+                    "example": "Minha Conta Corrente"
+                  },
+                  "account": {
+                    "type": "string",
+                    "description": "Número da conta",
+                    "example": "123456-7"
+                  },
+                  "agency": {
+                    "type": "string",
+                    "description": "Número da agência",
+                    "example": "1234"
+                  },
+                  "bank": {
+                    "type": "string",
+                    "description": "Nome do banco",
+                    "example": "Banco do Brasil"
+                  },
+                  "balance": {
+                    "type": "number",
+                    "description": "Saldo",
+                    "example": 1000.50
+                  },
+                  "maintenanceFee": {
+                    "type": "number",
+                    "description": "Taxa de manutenção",
+                    "example": 15.0
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Conta corrente atualizada com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "description": "ID da conta corrente",
+                      "example": "9b1deb4d-0e14-462e-9a7c-d1a37c41a1e1"
+                    },
+                    "userId": {
+                      "type": "string",
+                      "description": "ID do usuário",
+                      "example": "4b0e3102-0eb2-4547-8108-a649ad57a10c"
+                    },
+                    "name": {
+                      "type": "string",
+                      "description": "Nome da conta corrente",
+                      "example": "Minha Conta Corrente"
+                    },
+                    "account": {
+                      "type": "string",
+                      "description": "Número da conta",
+                      "example": "123456-7"
+                    },
+                    "agency": {
+                      "type": "string",
+                      "description": "Número da agência",
+                      "example": "1234"
+                    },
+                    "bank": {
+                      "type": "string",
+                      "description": "Nome do banco",
+                      "example": "Banco do Brasil"
+                    },
+                    "balance": {
+                      "type": "number",
+                      "description": "Saldo",
+                      "example": 1000.50
+                    },
+                    "maintenanceFee": {
+                      "type": "number",
+                      "description": "Taxa de manutenção",
+                      "example": 15.0
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Requisição inválida",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Mensagem de erro",
+                      "example": "Dados inválidos"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Conta corrente não encontrada",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Mensagem de erro",
+                      "example": "Checking Account not found"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/checkingAccounts/{userId}": {
+      "get": {
+        "tags": ["Checking Account"],
+        "summary": "Obtém contas correntes pelo ID do usuário",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "ID do usuário"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Contas correntes obtidas com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string",
+                        "description": "ID da conta corrente",
+                        "example": "9b1deb4d-0e14-462e-9a7c-d1a37c41a1e1"
+                      },
+                      "userId": {
+                        "type": "string",
+                        "description": "ID do usuário",
+                        "example": "4b0e3102-0eb2-4547-8108-a649ad57a10c"
+                      },
+                      "name": {
+                        "type": "string",
+                        "description": "Nome da conta corrente",
+                        "example": "Minha Conta Corrente"
+                      },
+                      "account": {
+                        "type": "string",
+                        "description": "Número da conta",
+                        "example": "123456-7"
+                      },
+                      "agency": {
+                        "type": "string",
+                        "description": "Número da agência",
+                        "example": "1234"
+                      },
+                      "bank": {
+                        "type": "string",
+                        "description": "Nome do banco",
+                        "example": "Banco do Brasil"
+                      },
+                      "balance": {
+                        "type": "number",
+                        "description": "Saldo",
+                        "example": 1000.50
+                      },
+                      "maintenanceFee": {
+                        "type": "number",
+                        "description": "Taxa de manutenção",
+                        "example": 15.0
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Contas correntes não encontradas",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Mensagem de erro",
+                      "example": "Not found!"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/creditCards/create": {
+      "post": {
+        "tags": ["Credit Card"],
+        "summary": "Cria um novo cartão de crédito",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "description": "Nome do cartão de crédito",
+                    "example": "Meu Cartão de Crédito"
+                  },
+                  "lastDigits": {
+                    "type": "string",
+                    "description": "Últimos dígitos do cartão de crédito",
+                    "example": "1234"
+                  },
+                  "limit": {
+                    "type": "number",
+                    "description": "Limite do cartão de crédito",
+                    "example": 5000.00
+                  },
+                  "closingDate": {
+                    "type": "ISO-8601 DateTime",
+                    "description": "Data de fechamento do cartão de crédito",
+                    "example": "2024-07-29T14:45:00.000Z"
+                  },
+                  "invoice": {
+                    "type": "number",
+                    "description": "Fatura do cartão de crédito",
+                    "example": 1500.50
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Cartão de crédito criado com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "description": "ID do cartão de crédito",
+                      "example": "9b1deb4d-0e14-462e-9a7c-d1a37c41a1e1"
+                    },
+                    "name": {
+                      "type": "string",
+                      "description": "Nome do cartão de crédito",
+                      "example": "Meu Cartão de Crédito"
+                    },
+                    "lastDigits": {
+                      "type": "string",
+                      "description": "Últimos dígitos do cartão de crédito",
+                      "example": "1234"
+                    },
+                    "limit": {
+                      "type": "number",
+                      "description": "Limite do cartão de crédito",
+                      "example": 5000.00
+                    },
+                    "closingDate": {
+                      "type": "ISO-8601 DateTime",
+                      "description": "Data de fechamento do cartão de crédito",
+                      "example": "2024-07-29T14:45:00.000Z"
+                    },
+                    "invoice": {
+                      "type": "number",
+                      "description": "Fatura do cartão de crédito",
+                      "example": 1500.50
+                    },
+                    "userId": {
+                      "type": "string",
+                      "description": "ID do usuário",
+                      "example": "4b0e3102-0eb2-4547-8108-a649ad57a10c"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Requisição inválida",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Mensagem de erro",
+                      "example": "Dados inválidos"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Usuário não encontrado ou cartão de crédito já registrado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Mensagem de erro",
+                      "example": "User not found or Credit card already registered"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/creditCards/{userId}": {
+      "get": {
+        "tags": ["Credit Card"],
+        "summary": "Obtém cartões de crédito pelo ID do usuário",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "ID do usuário"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Cartões de crédito obtidos com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string",
+                        "description": "ID do cartão de crédito",
+                        "example": "9b1deb4d-0e14-462e-9a7c-d1a37c41a1e1"
+                      },
+                      "userId": {
+                        "type": "string",
+                        "description": "ID do usuário",
+                        "example": "4b0e3102-0eb2-4547-8108-a649ad57a10c"
+                      },
+                      "name": {
+                        "type": "string",
+                        "description": "Nome do cartão de crédito",
+                        "example": "Meu Cartão de Crédito"
+                      },
+                      "lastDigits": {
+                        "type": "string",
+                        "description": "Últimos dígitos do cartão de crédito",
+                        "example": "1234"
+                      },
+                      "limit": {
+                        "type": "number",
+                        "description": "Limite do cartão de crédito",
+                        "example": 5000.00
+                      },
+                      "closingDate": {
+                        "type": "ISO-8601 DateTime",
+                        "description": "Data de fechamento do cartão de crédito",
+                        "example": "2024-07-29T14:45:00.000Z"
+                      },
+                      "invoice": {
+                        "type": "number",
+                        "description": "Fatura do cartão de crédito",
+                        "example": 1500.50
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Cartões de crédito não encontrados",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Mensagem de erro",
+                      "example": "Not found!"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/creditCards/{id}": {
+      "put": {
+        "tags": ["Credit Card"],
+        "summary": "Atualiza um cartão de crédito pelo ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "ID do cartão de crédito"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "description": "Nome do cartão de crédito",
+                    "example": "Meu Cartão de Crédito"
+                  },
+                  "lastDigits": {
+                    "type": "string",
+                    "description": "Últimos dígitos do cartão de crédito",
+                    "example": "1234"
+                  },
+                  "limit": {
+                    "type": "number",
+                    "description": "Limite do cartão de crédito",
+                    "example": 5000.00
+                  },
+                  "closingDate": {
+                    "type": "ISO-8601 DateTime",
+                    "description": "Data de fechamento do cartão de crédito",
+                    "example": "2024-07-29T14:45:00.000Z"
+                  },
+                  "invoice": {
+                    "type": "number",
+                    "description": "Fatura do cartão de crédito",
+                    "example": 1500.50
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Cartão de crédito atualizado com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "description": "ID do cartão de crédito",
+                      "example": "9b1deb4d-0e14-462e-9a7c-d1a37c41a1e1"
+                    },
+                    "userId": {
+                      "type": "string",
+                      "description": "ID do usuário",
+                      "example": "4b0e3102-0eb2-4547-8108-a649ad57a10c"
+                    },
+                    "name": {
+                      "type": "string",
+                      "description": "Nome do cartão de crédito",
+                      "example": "Meu Cartão de Crédito"
+                    },
+                    "lastDigits": {
+                      "type": "string",
+                      "description": "Últimos dígitos do cartão de crédito",
+                      "example": "1234"
+                    },
+                    "limit": {
+                      "type": "number",
+                      "description": "Limite do cartão de crédito",
+                      "example": 5000.00
+                    },
+                    "closingDate": {
+                      "type": "ISO-8601 DateTime",
+                      "description": "Data de fechamento do cartão de crédito",
+                      "example": "2024-07-29T14:45:00.000Z"
+                    },
+                    "invoice": {
+                      "type": "number",
+                      "description": "Fatura do cartão de crédito",
+                      "example": 1500.50
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Requisição inválida",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Mensagem de erro",
+                      "example": "Dados inválidos"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Cartão de crédito não encontrado ou nome já registrado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Mensagem de erro",
+                      "example": "Credit card not found or Another credit card with this name already exists for this user"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      },
+      "delete": {
+        "tags": ["Credit Card"],
+        "summary": "Deleta um cartão de crédito pelo ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "ID do cartão de crédito"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Cartão de crédito deletado com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Mensagem de sucesso",
+                      "example": "Credit card deleted successfully"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Cartão de crédito não encontrado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Credit card not found"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/transactions/create": {
+      "post": {
+        "tags": ["Transaction"],
+        "summary": "Cria uma nova transação",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "description": "Nome da transação",
+                    "example": "Compra no supermercado"
+                  },
+                  "date": {
+                    "type": "ISO-8601 DateTime",
+                    "description": "Data da transação",
+                    "example": "2024-07-29T14:45:00Z"
+                  },
+                  "value": {
+                    "type": "number",
+                    "description": "Valor da transação",
+                    "example": 150.50
+                  },
+                  "balanceAdjustment": {
+                    "type": "boolean",
+                    "description": "Ajuste no saldo",
+                    "example": true
+                  },
+                  "type": {
+                    "type": "string",
+                    "description": "Tipo da transação (e.g., 'INCOME' ou 'OUTCOME')",
+                    "example": "INCOME"
+                  },
+                  "creditCardId": {
+                    "type": "string",
+                    "description": "ID do cartão de crédito associado (opcional)",
+                    "example": "9b1deb4d-0e14-462e-9a7c-d1a37c41a1e1"
+                  },
+                  "categoryId": {
+                    "type": "string",
+                    "description": "ID da categoria associada (opcional)",
+                    "example": "4b0e3102-0eb2-4547-8108-a649ad57a10c"
+                  },
+                  "checkingAccountId": {
+                    "type": "string",
+                    "description": "ID da conta corrente associada",
+                    "example": "1b0e3102-0eb2-4547-8108-a649ad57a11d"
+                  }
+                },
+                "required": ["name", "date", "value", "type", "checkingAccountId"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Transação criada com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "description": "ID da transação",
+                      "example": "5b1deb4d-0e14-462e-9a7c-d1a37c41a2e2"
+                    },
+                    "name": {
+                      "type": "string",
+                      "description": "Nome da transação",
+                      "example": "Compra no supermercado"
+                    },
+                    "date": {
+                      "type": "ISO-8601 DateTime",
+                      "description": "Data da transação",
+                      "example": "2024-07-29T14:45:00Z"
+                    },
+                    "value": {
+                      "type": "number",
+                      "description": "Valor da transação",
+                      "example": 150.50
+                    },
+                    "balanceAdjustment": {
+                      "type": "boolean",
+                      "description": "Ajuste no saldo",
+                      "example": true
+                    },
+                    "type": {
+                      "type": "string",
+                      "description": "Tipo da transação (e.g., 'INCOME' ou 'OUTCOME')",
+                      "example": "INCOME"
+                    },
+                    "creditCardId": {
+                      "type": "string",
+                      "description": "ID do cartão de crédito associado (opcional)",
+                      "example": "9b1deb4d-0e14-462e-9a7c-d1a37c41a1e1"
+                    },
+                    "categoryId": {
+                      "type": "string",
+                      "description": "ID da categoria associada (opcional)",
+                      "example": "4b0e3102-0eb2-4547-8108-a649ad57a10c"
+                    },
+                    "checkingAccountId": {
+                      "type": "string",
+                      "description": "ID da conta corrente associada",
+                      "example": "1b0e3102-0eb2-4547-8108-a649ad57a11d"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Requisição inválida",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Mensagem de erro",
+                      "example": "Dados inválidos ou fundos insuficientes"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Conta corrente, cartão de crédito ou categoria não encontrados",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Mensagem de erro",
+                      "example": "Checking account, credit card, or category not found"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/transactions/{id}": {
+      "get": {
+        "tags": ["Transaction"],
+        "summary": "Obtém uma transação pelo ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "ID da transação"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Transação obtida com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string",
+                        "description": "ID da transação",
+                        "example": "5b1deb4d-0e14-462e-9a7c-d1a37c41a2e2"
+                      },
+                      "name": {
+                        "type": "string",
+                        "description": "Nome da transação",
+                        "example": "Compra no supermercado"
+                      },
+                      "date": {
+                        "type": "ISO-8601 DateTime",
+                        "description": "Data da transação",
+                        "example": "2024-07-29T14:45:00Z"
+                      },
+                      "value": {
+                        "type": "number",
+                        "description": "Valor da transação",
+                        "example": 150.50
+                      },
+                      "balanceAdjustment": {
+                        "type": "boolean",
+                        "description": "Ajuste no saldo",
+                        "example": true
+                      },
+                      "type": {
+                        "type": "string",
+                        "description": "Tipo da transação (e.g., 'INCOME' ou 'OUTCOME')",
+                        "example": "INCOME"
+                      },
+                      "creditCardId": {
+                        "type": "string",
+                        "description": "ID do cartão de crédito associado (opcional)",
+                        "example": "9b1deb4d-0e14-462e-9a7c-d1a37c41a1e1"
+                      },
+                      "categoryId": {
+                        "type": "string",
+                        "description": "ID da categoria associada (opcional)",
+                        "example": "4b0e3102-0eb2-4547-8108-a649ad57a10c"
+                      },
+                      "checkingAccountId": {
+                        "type": "string",
+                        "description": "ID da conta corrente associada",
+                        "example": "1b0e3102-0eb2-4547-8108-a649ad57a11d"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Transação não encontrada",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Mensagem de erro",
+                      "example": "Not found!"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      },
+      "put": {
+        "tags": ["Transaction"],
+        "summary": "Atualiza uma transação pelo ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "ID da transação"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "description": "Nome da transação",
+                    "example": "Compra no supermercado"
+                  },
+                  "date": {
+                    "type": "ISO-8601 DateTime",
+                    "description": "Data da transação",
+                    "example": "2024-07-29T14:45:00Z"
+                  },
+                  "value": {
+                    "type": "number",
+                    "description": "Valor da transação",
+                    "example": 150.50
+                  },
+                  "balanceAdjustment": {
+                    "type": "boolean",
+                    "description": "Ajuste no saldo",
+                    "example": true
+                  },
+                  "type": {
+                    "type": "string",
+                    "description": "Tipo da transação (e.g., 'INCOME' ou 'OUTCOME')",
+                    "example": "INCOME"
+                  },
+                  "creditCardId": {
+                    "type": "string",
+                    "description": "ID do cartão de crédito associado (opcional)",
+                    "example": "9b1deb4d-0e14-462e-9a7c-d1a37c41a1e1"
+                  },
+                  "categoryId": {
+                    "type": "string",
+                    "description": "ID da categoria associada (opcional)",
+                    "example": "4b0e3102-0eb2-4547-8108-a649ad57a10c"
+                  },
+                  "checkingAccountId": {
+                    "type": "string",
+                    "description": "ID da conta corrente associada",
+                    "example": "1b0e3102-0eb2-4547-8108-a649ad57a11d"
+                  }
+                },
+                "required": ["name", "date", "value", "type", "checkingAccountId"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Transação atualizada com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "description": "ID da transação",
+                      "example": "5b1deb4d-0e14-462e-9a7c-d1a37c41a2e2"
+                    },
+                    "name": {
+                      "type": "string",
+                      "description": "Nome da transação",
+                      "example": "Compra no supermercado"
+                    },
+                    "date": {
+                      "type": "ISO-8601 DateTime",
+                      "description": "Data da transação",
+                      "example": "2024-07-29T14:45:00Z"
+                    },
+                    "value": {
+                      "type": "number",
+                      "description": "Valor da transação",
+                      "example": 150.50
+                    },
+                    "balanceAdjustment": {
+                      "type": "boolean",
+                      "description": "Ajuste no saldo",
+                      "example": true
+                    },
+                    "type": {
+                      "type": "string",
+                      "description": "Tipo da transação (e.g., 'INCOME' ou 'OUTCOME')",
+                      "example": "INCOME"
+                    },
+                    "creditCardId": {
+                      "type": "string",
+                      "description": "ID do cartão de crédito associado (opcional)",
+                      "example": "9b1deb4d-0e14-462e-9a7c-d1a37c41a1e1"
+                    },
+                    "categoryId": {
+                      "type": "string",
+                      "description": "ID da categoria associada (opcional)",
+                      "example": "4b0e3102-0eb2-4547-8108-a649ad57a10c"
+                    },
+                    "checkingAccountId": {
+                      "type": "string",
+                      "description": "ID da conta corrente associada",
+                      "example": "1b0e3102-0eb2-4547-8108-a649ad57a11d"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Requisição inválida",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Mensagem de erro",
+                      "example": "Dados inválidos"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Transação ou conta corrente não encontrada",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Mensagem de erro",
+                      "example": "Transaction or checking account not found"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      },
+      "delete": {
+        "tags": ["Transaction"],
+        "summary": "Deleta uma transação pelo ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "ID da transação"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Transação deletada com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Mensagem de sucesso",
+                      "example": "Transaction deleted successfully"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Transação não encontrada",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Mensagem de erro",
+                      "example": "Transaction not found"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/categories/create": {
+      "post": {
+        "tags": ["Category"],
+        "summary": "Cria uma nova categoria",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "description": "Nome da categoria",
+                    "example": "Alimentação"
+                  }
+                },
+                "required": ["name"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Categoria criada com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "description": "ID da categoria",
+                      "example": "9b1deb4d-0e14-462e-9a7c-d1a37c41a1e1"
+                    },
+                    "userId": {
+                      "type": "string",
+                      "description": "ID do usuário",
+                      "example": "4b0e3102-0eb2-4547-8108-a649ad57a10c"
+                    },
+                    "name": {
+                      "type": "string",
+                      "description": "Nome da categoria",
+                      "example": "Alimentação"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Requisição inválida",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Mensagem de erro",
+                      "example": "Dados inválidos"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Usuário não encontrado ou nome da categoria já registrado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Mensagem de erro",
+                      "example": "User not found or Category name already exists"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/categories/{userId}": {
+      "get": {
+        "tags": ["Category"],
+        "summary": "Obtém categorias pelo ID do usuário",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "ID do usuário"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Categorias obtidas com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string",
+                        "description": "ID da categoria",
+                        "example": "9b1deb4d-0e14-462e-9a7c-d1a37c41a1e1"
+                      },
+                      "userId": {
+                        "type": "string",
+                        "description": "ID do usuário",
+                        "example": "4b0e3102-0eb2-4547-8108-a649ad57a10c"
+                      },
+                      "name": {
+                        "type": "string",
+                        "description": "Nome da categoria",
+                        "example": "Alimentação"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Categorias não encontradas",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Mensagem de erro",
+                      "example": "Not found!"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/categories/{id}": {
+      "put": {
+        "tags": ["Category"],
+        "summary": "Atualiza uma categoria pelo ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "ID da categoria"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "description": "Nome da categoria",
+                    "example": "Alimentação"
+                  }
+                },
+                "required": ["name"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Categoria atualizada com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "description": "ID da categoria",
+                      "example": "9b1deb4d-0e14-462e-9a7c-d1a37c41a1e1"
+                    },
+                    "userId": {
+                      "type": "string",
+                      "description": "ID do usuário",
+                      "example": "4b0e3102-0eb2-4547-8108-a649ad57a10c"
+                    },
+                    "name": {
+                      "type": "string",
+                      "description": "Nome da categoria",
+                      "example": "Alimentação"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Requisição inválida",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Mensagem de erro",
+                      "example": "Dados inválidos"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Categoria não encontrada ou nome já registrado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Category not found or Another category with this name already exists for this user"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      },
+      "delete": {
+        "tags": ["Category"],
+        "summary": "Deleta uma categoria pelo ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "ID da categoria"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Categoria deletada com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Categoria deletada com sucesso",
+                      "example": "Category deleted successfully"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Categoria não encontrada",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Category not found"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    }
+  },
+  "tags": [
+    {
+      "name": "User",
+      "description": "Operations related to users"
+    },
+    {
+      "name": "Checking Account",
+      "description": "Operations related to checking accounts"
+    },
+    {
+      "name": "Credit Card",
+      "description": "Operations related to credit cards"
+    },
+    {
+      "name": "Transaction",
+      "description": "Operations related to transactions"
+    },
+    {
+      "name": "Category",
+      "description": "Operations related to categories"
+    }
+  ]
+}

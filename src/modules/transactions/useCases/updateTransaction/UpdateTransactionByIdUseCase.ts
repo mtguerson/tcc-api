@@ -41,6 +41,8 @@ export class UpdateTransactionByIdUseCase {
       },
       data: {
         name,
+        balanceAdjustment,
+        type,
         date,
         value,
         creditCardId,
