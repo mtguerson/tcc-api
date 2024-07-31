@@ -23,7 +23,7 @@ creditCardRoutes.post(
 );
 
 creditCardRoutes.get(
-  "/:id",
+  "/list",
   verifyToken.handle,
   getCreditCardController.handle
 );

@@ -15,7 +15,7 @@ export class UpdateCreditCardByIdController {
       invoice,
       lastDigits,
       limit,
-      name
+      name,
     });
 
     return res.status(200).json(result);

@@ -7,7 +7,7 @@ export interface TransactionDTO {
   value: number;
   balanceAdjustment: boolean;
   type: PrismaTransactionType;
-  checkingAccountId: string;
+  checkingAccountId?: string;
   creditCardId?: string;
   categoryId?: string;
 }

@@ -44,7 +44,6 @@ var client_1 = require("../../../../prisma/client");
 var AppError_1 = require("../../../../errors/AppError");
 var bcrypt_1 = __importDefault(require("bcrypt"));
 var jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
-<<<<<<< HEAD
 var defaultCategories = [
     "Salário",
     "Casa",
@@ -52,9 +51,6 @@ var defaultCategories = [
     "Mercado",
     "Viagem",
 ];
-=======
-var defaultCategories = ["Salário", "Casa", "Alimentação", "Mercado", "Viagem"];
->>>>>>> main
 var CreateUserUseCase = /** @class */ (function () {
     function CreateUserUseCase() {
     }
@@ -95,13 +91,8 @@ var CreateUserUseCase = /** @class */ (function () {
                                     password: hashedPassword,
                                     phone: phone,
                                     categories: {
-<<<<<<< HEAD
                                         create: defaultCategories.map(function (name) { return ({ name: name }); }),
                                     },
-=======
-                                        create: defaultCategories.map(function (name) { return ({ name: name }); })
-                                    }
->>>>>>> main
                                 },
                             })];
                     case 3:

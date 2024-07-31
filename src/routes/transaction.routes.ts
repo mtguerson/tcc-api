@@ -10,7 +10,8 @@ const createTransactionController = new CreateTransactionController();
 const getTransactionByIdController = new GetTransactionByIdController();
 const deleteTransactionByIdController = new DeleteTransactionByIdController();
 const updateTransactionByIdController = new UpdateTransactionByIdController();
-const listAllTransactionsByUserIdController = new ListAllTransactionsByUserIdController();
+const listAllTransactionsByUserIdController =
+  new ListAllTransactionsByUserIdController();
 const verifyToken = new VerifyToken();
 
 const transactionRoutes = Router();
@@ -20,12 +21,19 @@ transactionRoutes.post(
   verifyToken.handle,
   createTransactionController.handle
 );
-transactionRoutes.get("/:id", verifyToken.handle, getTransactionByIdController.handle);
+
 transactionRoutes.get(
-  "/user",
+  "/list",
   verifyToken.handle,
   listAllTransactionsByUserIdController.handle
 );
+
+transactionRoutes.get(
+  "/:id",
+  verifyToken.handle,
+  getTransactionByIdController.handle
+);
+
 transactionRoutes.delete(
   "/:id",
   verifyToken.handle,

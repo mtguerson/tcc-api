@@ -3,11 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.creditCardRoutes = void 0;
 var express_1 = require("express");
 var auth_1 = require("../middlewares/auth");
-<<<<<<< HEAD
 var CreateCreditCardController_1 = require("../modules/creditCards/useCases/CreateCreditCard/CreateCreditCardController");
-=======
-var CreateCreditCardController_1 = require("../modules/creditCards/useCases/createCreditCard/CreateCreditCardController");
->>>>>>> main
 var GetCreditCardByUserIdController_1 = require("../modules/creditCards/useCases/getCreditCardByUserId/GetCreditCardByUserIdController");
 var DeleteCreditCardByIdController_1 = require("../modules/creditCards/useCases/deleteCreditCardById/DeleteCreditCardByIdController");
 var UpdateCreditCardByIdController_1 = require("../modules/creditCards/useCases/updateCreditCardById/UpdateCreditCardByIdController");

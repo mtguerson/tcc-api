@@ -4,7 +4,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 require("express-async-errors");
-var swaggerConfig_js_1 = __importDefault(require("./swagger/swaggerConfig.js"));
 var express_1 = __importDefault(require("express"));
 var routes_1 = require("./routes");
 var AppError_1 = require("./errors/AppError");
@@ -12,12 +11,8 @@ var dotenv_1 = __importDefault(require("dotenv"));
 dotenv_1.default.config();
 var app = (0, express_1.default)();
 var cors = require("cors");
-<<<<<<< HEAD
-(0, swaggerConfig_js_1.default)(app);
-=======
 var swaggerSetup = require('./swagger/swaggerConfig.js');
 swaggerSetup(app);
->>>>>>> main
 // Use the CORS middleware
 app.use(cors({
     origin: "http://localhost:5173", // Allow requests from this origin

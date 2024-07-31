@@ -1,4 +1,4 @@
-import { Transaction } from "@prisma/client";
+import { CheckingAccount, CreditCard, Transaction } from "@prisma/client";
 import { AppError } from "../../../../errors/AppError";
 import { prisma } from "../../../../prisma/client";
 import { TransactionDTO } from "../../dtos/TransactionDTO";
@@ -15,28 +15,28 @@ export class CreateTransactionUseCase {
     categoryId,
     checkingAccountId,
   }: TransactionDTO): Promise<Transaction> {
-    if (!checkingAccountId)
-      throw new AppError("Checking account id is required", 400);
+    let checkingAccount: CheckingAccount | null;
+    let creditCard: CreditCard | null;
+    if (checkingAccountId) {
+      checkingAccount = await prisma.checkingAccount.findUnique({
+        where: {
+          id: checkingAccountId,
+        },
+      });
 
-    const checkingAccount = await prisma.checkingAccount.findUnique({
-      where: {
-        id: checkingAccountId,
-      },
-    });
-
-    if (!checkingAccount) {
-      throw new AppError("Checking account not found", 404);
+      if (!checkingAccount) {
+        throw new AppError("Checking account not found", 404);
+      }
     }
-
     //only validate if the credit card exists if it was passed
     if (creditCardId) {
-      const creditCardExists = await prisma.creditCard.findUnique({
+      creditCard = await prisma.creditCard.findUnique({
         where: {
           id: creditCardId,
         },
       });
 
-      if (!creditCardExists) {
+      if (!creditCard) {
         throw new AppError("Credit card not found", 404);
       }
     }
@@ -54,35 +54,65 @@ export class CreateTransactionUseCase {
       }
     }
 
-    // Convert checkingAccount.balance and value to Decimal and update the balance
-    const updatedBalance = new Decimal(checkingAccount.balance).minus(new Decimal(value));
+    if (!checkingAccountId && !creditCardId) {
+      throw new AppError(
+        "You must provide a checking account or credit card",
+        400
+      );
+    }
 
-    if (updatedBalance.isNegative()) {
-      throw new AppError("Insufficient funds in the checking account", 400);
+    if (checkingAccountId && creditCardId) {
+      throw new AppError(
+        "You must provide only a checking account or credit card",
+        400
+      );
     }
 
     const transaction = await prisma.$transaction(async (prisma) => {
-      await prisma.checkingAccount.update({
-        where: {
-          id: checkingAccountId,
-        },
-        data: {
-          balance: updatedBalance.toNumber(),
-        },
-      });
+      const transactionValueCheckingAccount =
+        type === "INCOME" ? value : value * -1;
+      const transactionValueCreditCard = type === "INCOME" ? value * -1 : value;
 
-      return prisma.transaction.create({
+      const transaction = await prisma.transaction.create({
         data: {
-          checkingAccountId,
           name,
           date,
           value,
           balanceAdjustment,
           type,
+          checkingAccountId,
           creditCardId,
           categoryId,
         },
       });
+
+      if (checkingAccountId && checkingAccount) {
+        const newCheckingAccountBalance =
+          checkingAccount.balance + transactionValueCheckingAccount;
+        await prisma.checkingAccount.update({
+          where: {
+            id: checkingAccountId,
+          },
+          data: {
+            balance: newCheckingAccountBalance,
+          },
+        });
+      }
+
+      if (creditCardId && creditCard) {
+        const newCreditCardBalance =
+          creditCard.invoice + transactionValueCreditCard;
+        await prisma.creditCard.update({
+          where: {
+            id: creditCardId,
+          },
+          data: {
+            invoice: newCreditCardBalance,
+          },
+        });
+      }
+
+      return transaction;
     });
 
     return transaction;

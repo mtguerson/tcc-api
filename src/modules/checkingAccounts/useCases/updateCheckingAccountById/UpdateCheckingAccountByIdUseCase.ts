@@ -56,17 +56,21 @@ export class UpdateCheckingAccountByIdUseCase {
       },
     });
 
-    const isIncome = checkingAccountExists.balance < balance;
+    if (checkingAccountExists.balance !== balance) {
+      const isIncome = checkingAccountExists.balance < balance;
 
-    await prisma.transaction.create({
-      data: {
-        type: isIncome ? "INCOME" : "OUTCOME",
-        name: "Atualização de conta corrente",
-        value: balance,
-        checkingAccountId: checkingAccountUpdated.id,
-        balanceAdjustment: true,
-      },
-    });
+      const difference = Math.abs(checkingAccountExists.balance - balance);
+
+      await prisma.transaction.create({
+        data: {
+          type: isIncome ? "INCOME" : "OUTCOME",
+          name: "Atualização do saldo da conta corrente",
+          value: difference,
+          checkingAccountId: checkingAccountUpdated.id,
+          balanceAdjustment: true,
+        },
+      });
+    }
 
     return checkingAccountUpdated;
   }

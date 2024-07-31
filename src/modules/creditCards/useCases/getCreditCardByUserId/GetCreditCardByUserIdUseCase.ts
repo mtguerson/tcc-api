@@ -6,13 +6,9 @@ export class GetCreditCardByUserIdUseCase {
   async execute({ userId }: { userId: string }): Promise<CreditCard[]> {
     const creditCard = await prisma.creditCard.findMany({
       where: {
-        userId
-      }
+        userId,
+      },
     });
-
-    if (creditCard.length === 0) {
-      throw new AppError("Not found!", 404);
-    }
 
     return creditCard;
   }
