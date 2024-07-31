@@ -6,8 +6,8 @@ export class GetCheckingAccountByUserIdUseCase {
   async execute({ userId }: { userId: string }): Promise<CheckingAccount[]> {
     const checkingAccount = await prisma.checkingAccount.findMany({
       where: {
-        userId
-      }
+        userId,
+      },
     });
 
     if (checkingAccount.length === 0) {

@@ -1,4 +1,4 @@
-import { Transaction } from "@prisma/client";
+import { CheckingAccount, CreditCard, Transaction } from "@prisma/client";
 import { AppError } from "../../../../errors/AppError";
 import { prisma } from "../../../../prisma/client";
 import { TransactionDTO } from "../../dtos/TransactionDTO";
@@ -20,19 +20,35 @@ export class UpdateTransactionByIdUseCase {
         id,
       },
     });
+    let checkingAccount: CheckingAccount | null = null;
+    let creditCard: CreditCard | null = null;
 
     if (!transactionExists) {
       throw new AppError("Transaction not found");
     }
 
-    const checkingAccount = await prisma.checkingAccount.findUnique({
-      where: {
-        id: checkingAccountId,
-      },
-    });
+    if (checkingAccountId) {
+      checkingAccount = await prisma.checkingAccount.findUnique({
+        where: {
+          id: checkingAccountId,
+        },
+      });
 
-    if (!checkingAccount) {
-      throw new AppError("Checking account not found", 404);
+      if (!checkingAccount) {
+        throw new AppError("Checking account not found", 404);
+      }
+    }
+
+    if (creditCardId) {
+      creditCard = await prisma.creditCard.findUnique({
+        where: {
+          id: creditCardId,
+        },
+      });
+
+      if (!creditCard) {
+        throw new AppError("Credit card not found", 404);
+      }
     }
 
     const transactionUpdated = await prisma.transaction.update({

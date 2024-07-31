@@ -1,6 +1,5 @@
 import { Request, Response } from "express";
 import { GetTransactionByIdUseCase } from "./GetTransactionByIdUseCase";
-import { VerifyToken } from "../../../../middlewares/auth";
 
 export class GetTransactionByIdController {
   async handle(req: Request, res: Response) {

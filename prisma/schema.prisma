@@ -10,7 +10,7 @@ datasource db {
 model User {
   id               String            @id @default(uuid())
   name             String
-  username         String            @unique
+  username         String?           @unique
   email            String            @unique
   password         String
   phone            String            @unique
@@ -55,18 +55,18 @@ enum TransactionType {
 }
 
 model Transaction {
-  id                String          @id @default(uuid())
+  id                String           @id @default(uuid())
   name              String
-  date              DateTime
+  date              DateTime         @default(now())
   value             Float
-  creditCardId      String?         @map("credit_card_id")
-  categoryId        String?         @map("category_id")
-  checkingAccountId String          @map("checking_account_id")
-  balanceAdjustment Boolean         @map("balance_adjustment")
+  creditCardId      String?          @map("credit_card_id")
+  categoryId        String?          @map("category_id")
+  checkingAccountId String?          @map("checking_account_id")
+  balanceAdjustment Boolean          @default(false) @map("balance_adjustment")
   type              TransactionType
-  checkingAccounts  CheckingAccount @relation(fields: [checkingAccountId], references: [id], onDelete: Cascade)
-  categories        Category?       @relation(fields: [categoryId], references: [id], onDelete: Cascade)
-  creditCards       CreditCard?     @relation(fields: [creditCardId], references: [id], onDelete: Cascade)
+  checkingAccounts  CheckingAccount? @relation(fields: [checkingAccountId], references: [id], onDelete: Cascade)
+  categories        Category?        @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  creditCards       CreditCard?      @relation(fields: [creditCardId], references: [id], onDelete: Cascade)
 
   @@map("transactions")
 }

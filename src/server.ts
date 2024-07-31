@@ -3,12 +3,11 @@ import express, { NextFunction, Request, Response } from "express";
 import { routes } from "./routes";
 import { AppError } from "./errors/AppError";
 import dotenv from "dotenv";
+import cors from "cors";
+import swaggerSetup from "./swagger/swaggerConfig";
 dotenv.config();
 
 const app = express();
-const cors = require("cors");
-const swaggerSetup = require('./swagger/swaggerConfig.js');
-
 swaggerSetup(app);
 
 // Use the CORS middleware

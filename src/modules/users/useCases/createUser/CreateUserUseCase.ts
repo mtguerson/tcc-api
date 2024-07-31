@@ -12,7 +12,13 @@ type CreateUserResponse = Partial<
   }
 >;
 
-const defaultCategories = ["Salário", "Casa", "Alimentação", "Mercado", "Viagem"];
+const defaultCategories = [
+  "Salário",
+  "Casa",
+  "Alimentação",
+  "Mercado",
+  "Viagem",
+];
 
 export class CreateUserUseCase {
   async execute({
@@ -42,16 +48,6 @@ export class CreateUserUseCase {
       throw new AppError("Phone already taken");
     }
 
-    const usernameAlreadyTaken = await prisma.user.findUnique({
-      where: {
-        username
-      }
-    })
-
-    if (usernameAlreadyTaken) {
-      throw new AppError("Username already taken");
-    }
-
     const passwordSalt = Number(`${process.env.SALT_PASSWORD || 10}`);
 
     const salt = bcrypt.genSaltSync(passwordSalt);
@@ -65,8 +61,8 @@ export class CreateUserUseCase {
         password: hashedPassword,
         phone,
         categories: {
-          create: defaultCategories.map(name => ({ name }))
-        }
+          create: defaultCategories.map((name) => ({ name })),
+        },
       },
     });
 

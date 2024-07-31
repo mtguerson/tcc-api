@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { VerifyToken } from "../middlewares/auth";
-import { CreateCreditCardController } from "../modules/creditCards/useCases/createCreditCard/CreateCreditCardController";
+import { CreateCreditCardController } from "../modules/creditCards/useCases/CreateCreditCard/CreateCreditCardController";
 import { GetCreditCardByUserIdController } from "../modules/creditCards/useCases/getCreditCardByUserId/GetCreditCardByUserIdController";
 import { DeleteCreditCardByIdController } from "../modules/creditCards/useCases/deleteCreditCardById/DeleteCreditCardByIdController";
 import { UpdateCreditCardByIdController } from "../modules/creditCards/useCases/updateCreditCardById/UpdateCreditCardByIdController";
@@ -11,7 +11,7 @@ const getCreditCardController = new GetCreditCardByUserIdController();
 
 const deleteCreditCardByIdController = new DeleteCreditCardByIdController();
 
-const updateCreditCardByIdController = new UpdateCreditCardByIdController(); 
+const updateCreditCardByIdController = new UpdateCreditCardByIdController();
 
 const verifyToken = new VerifyToken();
 const creditCardRoutes = Router();
@@ -23,7 +23,7 @@ creditCardRoutes.post(
 );
 
 creditCardRoutes.get(
-  "/:id",
+  "/list",
   verifyToken.handle,
   getCreditCardController.handle
 );
@@ -40,4 +40,4 @@ creditCardRoutes.put(
   updateCreditCardByIdController.handle
 );
 
-export { creditCardRoutes }
+export { creditCardRoutes };
