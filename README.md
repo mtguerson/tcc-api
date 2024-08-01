@@ -1,4 +1,13 @@
 
+### Accessing API Documentation
+
+Você pode acessar a documentação da API na seguinte URL, após iniciar o servidor de desenvolvimento:
+```sh
+http://localhost:3000/docs
+```
+
+---
+
 ### Installing Node.js and Yarn
 
 #### Node.js Installation
@@ -64,7 +73,7 @@
 
 ### Running the Project
 
-1. Start containerL
+1. Start container:
    ```sh
    docker-compose up
    ```
