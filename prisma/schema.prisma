@@ -50,6 +50,7 @@ model Category {
 enum TransactionType {
   INCOME
   OUTCOME
+  INVOICE_PAYMENT
 
   @@map("transaction_type")
 }

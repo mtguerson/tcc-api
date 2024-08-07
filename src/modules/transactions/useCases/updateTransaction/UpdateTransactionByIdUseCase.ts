@@ -20,15 +20,13 @@ export class UpdateTransactionByIdUseCase {
         id,
       },
     });
-    let checkingAccount: CheckingAccount | null = null;
-    let creditCard: CreditCard | null = null;
 
     if (!transactionExists) {
       throw new AppError("Transaction not found");
     }
 
     if (checkingAccountId) {
-      checkingAccount = await prisma.checkingAccount.findUnique({
+      const checkingAccount = await prisma.checkingAccount.findUnique({
         where: {
           id: checkingAccountId,
         },
@@ -40,7 +38,7 @@ export class UpdateTransactionByIdUseCase {
     }
 
     if (creditCardId) {
-      creditCard = await prisma.creditCard.findUnique({
+      const creditCard = await prisma.creditCard.findUnique({
         where: {
           id: creditCardId,
         },

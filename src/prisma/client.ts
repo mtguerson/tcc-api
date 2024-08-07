@@ -11,3 +11,13 @@ prisma
     console.error("Error connecting to the database: ", e);
     process.exit(1);
   });
+
+prisma.$extends({
+  query: {
+    transaction: {
+      update: (params) => {
+        return params.query(params.args);
+      },
+    },
+  },
+});

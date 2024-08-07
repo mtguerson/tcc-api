@@ -61,58 +61,24 @@ export class CreateTransactionUseCase {
       );
     }
 
-    if (checkingAccountId && creditCardId) {
+    if (type !== "INVOICE_PAYMENT" && checkingAccountId && creditCardId) {
       throw new AppError(
         "You must provide only a checking account or credit card",
         400
       );
     }
 
-    const transaction = await prisma.$transaction(async (prisma) => {
-      const transactionValueCheckingAccount =
-        type === "INCOME" ? value : value * -1;
-      const transactionValueCreditCard = type === "INCOME" ? value * -1 : value;
-
-      const transaction = await prisma.transaction.create({
-        data: {
-          name,
-          date,
-          value,
-          balanceAdjustment,
-          type,
-          checkingAccountId,
-          creditCardId,
-          categoryId,
-        },
-      });
-
-      if (checkingAccountId && checkingAccount) {
-        const newCheckingAccountBalance =
-          checkingAccount.balance + transactionValueCheckingAccount;
-        await prisma.checkingAccount.update({
-          where: {
-            id: checkingAccountId,
-          },
-          data: {
-            balance: newCheckingAccountBalance,
-          },
-        });
-      }
-
-      if (creditCardId && creditCard) {
-        const newCreditCardBalance =
-          creditCard.invoice + transactionValueCreditCard;
-        await prisma.creditCard.update({
-          where: {
-            id: creditCardId,
-          },
-          data: {
-            invoice: newCreditCardBalance,
-          },
-        });
-      }
-
-      return transaction;
+    const transaction = await prisma.transaction.create({
+      data: {
+        name,
+        date,
+        value,
+        balanceAdjustment,
+        type,
+        checkingAccountId,
+        creditCardId,
+        categoryId,
+      },
     });
 
     return transaction;
