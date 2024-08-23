@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
-import { CreateCreditCardUseCase } from "../CreateCreditCard/CreateCreditCardUseCase";
 import { VerifyToken } from "../../../../middlewares/auth";
+import { CreateCreditCardUseCase } from "./CreateCreditCardUseCase";
 
 export class CreateCreditCardController {
   async handle(req: Request, res: Response) {
