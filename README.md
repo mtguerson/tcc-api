@@ -1,7 +1,7 @@
 
 ### Accessing API Documentation
 
-Você pode acessar a documentação da API na seguinte URL, após iniciar o servidor de desenvolvimento:
+You can access the API documentation at the following URL after starting the development server:
 ```sh
 http://localhost:3000/docs
 ```
