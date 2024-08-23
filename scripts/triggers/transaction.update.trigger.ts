@@ -25,24 +25,26 @@ class TransactionUpdateTrigger extends Trigger {
           difference FLOAT;
         BEGIN
 
-          IF OLD.type = 'OUTCOME' OR OLD.type = 'INVOICE_PAYMENT' THEN
-            UPDATE credit_cards
-            SET invoice = invoice - OLD.value
-            WHERE id = OLD.credit_card_id;
-          ELSE
-            UPDATE credit_cards
-            SET invoice = invoice + OLD.value
-            WHERE id = OLD.credit_card_id;
-          END IF;
-          
-          IF OLD.type = 'OUTCOME' OR OLD.type = 'INVOICE_PAYMENT' THEN
-            UPDATE checking_accounts
-            SET balance = balance + OLD.value
-            WHERE id = OLD.checking_account_id;
-          ELSE
-            UPDATE checking_accounts
-            SET balance = balance - OLD.value
-            WHERE id = OLD.checking_account_id;
+          IF OLD.type <> NEW.type THEN
+            IF OLD.type = 'OUTCOME' OR OLD.type = 'INVOICE_PAYMENT' THEN
+              UPDATE credit_cards
+              SET invoice = invoice - OLD.value
+              WHERE id = OLD.credit_card_id;
+            ELSE
+              UPDATE credit_cards
+              SET invoice = invoice + OLD.value
+              WHERE id = OLD.credit_card_id;
+            END IF;
+            
+            IF OLD.type = 'OUTCOME' OR OLD.type = 'INVOICE_PAYMENT' THEN
+              UPDATE checking_accounts
+              SET balance = balance + OLD.value
+              WHERE id = OLD.checking_account_id;
+            ELSE
+              UPDATE checking_accounts
+              SET balance = balance - OLD.value
+              WHERE id = OLD.checking_account_id;
+            END IF;
           END IF;
 
           IF NEW.value = OLD.value THEN
