@@ -55,16 +55,6 @@ export class CreateCreditCardUseCase {
       },
     });
 
-    await prisma.transaction.create({
-      data: {
-        name: "Criação de cartão de crédito",
-        type: "OUTCOME",
-        value: invoice,
-        creditCardId: creditCard.id,
-        balanceAdjustment: true,
-      },
-    });
-
     return creditCard;
   }
 }

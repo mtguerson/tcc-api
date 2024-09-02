@@ -46,16 +46,6 @@ export class CreateCheckingAccountUseCase {
       },
     });
 
-    await prisma.transaction.create({
-      data: {
-        type: "INCOME",
-        name: "Criação de conta corrente",
-        value: balance,
-        checkingAccountId: checkingAccount.id,
-        balanceAdjustment: true,
-      },
-    });
-
     return checkingAccount;
   }
 }
