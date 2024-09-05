@@ -13,7 +13,7 @@ swaggerSetup(app);
 // Use the CORS middleware
 app.use(
   cors({
-    origin: "http://localhost:5173", // Allow requests from this origin
+    origin: "https://tcc-front-psi.vercel.app/", // Allow requests from this origin
   })
 );
 
