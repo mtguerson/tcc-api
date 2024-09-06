@@ -9,11 +9,10 @@ dotenv.config();
 
 const app = express();
 swaggerSetup(app);
-
 // Use the CORS middleware
 app.use(
   cors({
-    origin: "https://tcc-front-psi.vercel.app/", // Allow requests from this origin
+    origin: process.env.FRONT_END_URL,
   })
 );
 
