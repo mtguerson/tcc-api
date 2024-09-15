@@ -1,7 +1,7 @@
-import { CreditCard } from "@prisma/client";
-import { AppError } from "../../../../errors/AppError";
-import { prisma } from "../../../../prisma/client";
-import { CreditCardDTO } from "../../dtos/CreditCardDTO";
+import { CreditCard } from '@prisma/client'
+import { AppError } from '../../../../errors/AppError'
+import { prisma } from '../../../../prisma/client'
+import { CreditCardDTO } from '../../dtos/CreditCardDTO'
 
 export class UpdateCreditCardByIdUseCase {
   async execute({
@@ -17,10 +17,10 @@ export class UpdateCreditCardByIdUseCase {
       where: {
         id,
       },
-    });
+    })
 
     if (!creditCardExists) {
-      throw new AppError("Credit card not found");
+      throw new AppError('Credit card not found')
     }
 
     if (creditCardExists.name !== name) {
@@ -32,12 +32,12 @@ export class UpdateCreditCardByIdUseCase {
             id,
           },
         },
-      });
+      })
 
       if (creditCardNameExists) {
         throw new AppError(
-          "Another credit card with this name already exists for this user"
-        );
+          'Another credit card with this name already exists for this user',
+        )
       }
     }
 
@@ -52,24 +52,24 @@ export class UpdateCreditCardByIdUseCase {
         lastDigits,
         limit,
       },
-    });
+    })
 
     if (creditCardExists.invoice !== invoice) {
-      const isIncome = creditCardExists.invoice > invoice;
+      const isIncome = creditCardExists.invoice > invoice
 
-      const difference = Math.abs(creditCardExists.invoice - invoice);
+      const difference = Math.abs(creditCardExists.invoice - invoice)
 
       await prisma.transaction.create({
         data: {
-          type: isIncome ? "INCOME" : "OUTCOME",
-          name: "Atualização na fatura do cartão de crédito",
+          type: isIncome ? 'INCOME' : 'OUTCOME',
+          name: 'Atualização na fatura do cartão de crédito',
           value: difference,
           creditCardId: creditCardUpdated.id,
           balanceAdjustment: true,
         },
-      });
+      })
     }
 
-    return creditCardUpdated;
+    return creditCardUpdated
   }
 }

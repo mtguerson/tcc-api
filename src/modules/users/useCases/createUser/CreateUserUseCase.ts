@@ -1,24 +1,24 @@
-import { User } from "@prisma/client";
-import { prisma } from "../../../../prisma/client";
-import { SignUpDto } from "../../dtos/signup";
-import { AppError } from "../../../../errors/AppError";
-import bcrypt from "bcrypt";
-import jwt from "jsonwebtoken";
-import { jwtInfo } from "../../../../types/jwtInfo";
+import { User } from '@prisma/client'
+import { prisma } from '../../../../prisma/client'
+import { SignUpDto } from '../../dtos/signup'
+import { AppError } from '../../../../errors/AppError'
+import bcrypt from 'bcrypt'
+import jwt from 'jsonwebtoken'
+import { jwtInfo } from '../../../../types/jwtInfo'
 
 type CreateUserResponse = Partial<
   User & {
-    accessToken?: string;
+    accessToken?: string
   }
->;
+>
 
 const defaultCategories = [
-  "Salário",
-  "Casa",
-  "Alimentação",
-  "Mercado",
-  "Viagem",
-];
+  'Salário',
+  'Casa',
+  'Alimentação',
+  'Mercado',
+  'Viagem',
+]
 
 export class CreateUserUseCase {
   async execute({
@@ -32,26 +32,26 @@ export class CreateUserUseCase {
       where: {
         email,
       },
-    });
+    })
 
     if (userAlreadyExists) {
-      throw new AppError("User already exists");
+      throw new AppError('User already exists')
     }
 
     const phoneAlreadyTaken = await prisma.user.findUnique({
       where: {
         phone,
       },
-    });
+    })
 
     if (phoneAlreadyTaken) {
-      throw new AppError("Phone already taken");
+      throw new AppError('Phone already taken')
     }
 
-    const passwordSalt = Number(`${process.env.SALT_PASSWORD || 10}`);
+    const passwordSalt = Number(`${process.env.SALT_PASSWORD || 10}`)
 
-    const salt = bcrypt.genSaltSync(passwordSalt);
-    const hashedPassword = bcrypt.hashSync(password, salt);
+    const salt = bcrypt.genSaltSync(passwordSalt)
+    const hashedPassword = bcrypt.hashSync(password, salt)
 
     const user = await prisma.user.create({
       data: {
@@ -64,7 +64,7 @@ export class CreateUserUseCase {
           create: defaultCategories.map((name) => ({ name })),
         },
       },
-    });
+    })
 
     const jwtUserInfo: jwtInfo = {
       userId: user.id,
@@ -72,11 +72,11 @@ export class CreateUserUseCase {
       name: user.name,
       username: user.username,
       isAdmin: user.isAdmin,
-    };
+    }
 
     const token = jwt.sign(jwtUserInfo, `${process.env.JWT_SECRET}`, {
-      expiresIn: "1d",
-    });
+      expiresIn: '1d',
+    })
 
     return {
       email: user.email,
@@ -84,6 +84,6 @@ export class CreateUserUseCase {
       username: user.username,
       phone: user.phone,
       accessToken: token,
-    };
+    }
   }
 }

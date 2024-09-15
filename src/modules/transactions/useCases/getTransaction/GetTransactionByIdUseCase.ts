@@ -1,6 +1,6 @@
-import { Transaction } from "@prisma/client";
-import { prisma } from "../../../../prisma/client";
-import { AppError } from "../../../../errors/AppError";
+import { Transaction } from '@prisma/client'
+import { prisma } from '../../../../prisma/client'
+import { AppError } from '../../../../errors/AppError'
 
 export class GetTransactionByIdUseCase {
   async execute({ id }: { id: string }): Promise<Transaction> {
@@ -8,12 +8,12 @@ export class GetTransactionByIdUseCase {
       where: {
         id,
       },
-    });
+    })
 
     if (!transaction) {
-      throw new AppError("Not found!", 404);
+      throw new AppError('Not found!', 404)
     }
 
-    return transaction;
+    return transaction
   }
 }

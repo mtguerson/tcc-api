@@ -1,6 +1,6 @@
-import { CheckingAccount } from "@prisma/client";
-import { prisma } from "../../../../prisma/client";
-import { AppError } from "../../../../errors/AppError";
+import { CheckingAccount } from '@prisma/client'
+import { prisma } from '../../../../prisma/client'
+import { AppError } from '../../../../errors/AppError'
 
 export class GetCheckingAccountByUserIdUseCase {
   async execute({ userId }: { userId: string }): Promise<CheckingAccount[]> {
@@ -8,12 +8,12 @@ export class GetCheckingAccountByUserIdUseCase {
       where: {
         userId,
       },
-    });
+    })
 
     if (checkingAccount.length === 0) {
-      throw new AppError("Not found!", 404);
+      throw new AppError('Not found!', 404)
     }
 
-    return checkingAccount;
+    return checkingAccount
   }
 }

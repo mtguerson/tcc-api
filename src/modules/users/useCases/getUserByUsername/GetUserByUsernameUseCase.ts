@@ -1,6 +1,6 @@
-import { User } from "@prisma/client";
-import { prisma } from "../../../../prisma/client";
-import { AppError } from "../../../../errors/AppError";
+import { User } from '@prisma/client'
+import { prisma } from '../../../../prisma/client'
+import { AppError } from '../../../../errors/AppError'
 
 export class GetUserByUsernameUseCase {
   async execute({ username }: { username: string }): Promise<User> {
@@ -8,10 +8,10 @@ export class GetUserByUsernameUseCase {
       where: {
         username,
       },
-    });
+    })
     if (!user) {
-      throw new AppError("User not found", 404);
+      throw new AppError('User not found', 404)
     }
-    return user;
+    return user
   }
 }

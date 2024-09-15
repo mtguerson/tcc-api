@@ -1,48 +1,48 @@
-import { Router } from "express";
-import { CreateTransactionController } from "../modules/transactions/useCases/createTransaction/CreateTransactionController";
-import { GetTransactionByIdController } from "../modules/transactions/useCases/getTransaction/GetTransactionByIdController";
-import { DeleteTransactionByIdController } from "../modules/transactions/useCases/deleteTransaction/DeleteTransactioneByIdController";
-import { UpdateTransactionByIdController } from "../modules/transactions/useCases/updateTransaction/UpdateTransactionByIdController";
-import { ListAllTransactionsByUserIdController } from "../modules/transactions/useCases/listAllTransactions/ListAllTransactionsByUserIdController";
-import { VerifyToken } from "../middlewares/auth";
+import { Router } from 'express'
+import { CreateTransactionController } from '../modules/transactions/useCases/createTransaction/CreateTransactionController'
+import { GetTransactionByIdController } from '../modules/transactions/useCases/getTransaction/GetTransactionByIdController'
+import { DeleteTransactionByIdController } from '../modules/transactions/useCases/deleteTransaction/DeleteTransactioneByIdController'
+import { UpdateTransactionByIdController } from '../modules/transactions/useCases/updateTransaction/UpdateTransactionByIdController'
+import { ListAllTransactionsByUserIdController } from '../modules/transactions/useCases/listAllTransactions/ListAllTransactionsByUserIdController'
+import { VerifyToken } from '../middlewares/auth'
 
-const createTransactionController = new CreateTransactionController();
-const getTransactionByIdController = new GetTransactionByIdController();
-const deleteTransactionByIdController = new DeleteTransactionByIdController();
-const updateTransactionByIdController = new UpdateTransactionByIdController();
+const createTransactionController = new CreateTransactionController()
+const getTransactionByIdController = new GetTransactionByIdController()
+const deleteTransactionByIdController = new DeleteTransactionByIdController()
+const updateTransactionByIdController = new UpdateTransactionByIdController()
 const listAllTransactionsByUserIdController =
-  new ListAllTransactionsByUserIdController();
-const verifyToken = new VerifyToken();
+  new ListAllTransactionsByUserIdController()
+const verifyToken = new VerifyToken()
 
-const transactionRoutes = Router();
+const transactionRoutes = Router()
 
 transactionRoutes.post(
-  "/create",
+  '/create',
   verifyToken.handle,
-  createTransactionController.handle
-);
+  createTransactionController.handle,
+)
 
 transactionRoutes.get(
-  "/list",
+  '/list',
   verifyToken.handle,
-  listAllTransactionsByUserIdController.handle
-);
+  listAllTransactionsByUserIdController.handle,
+)
 
 transactionRoutes.get(
-  "/:id",
+  '/:id',
   verifyToken.handle,
-  getTransactionByIdController.handle
-);
+  getTransactionByIdController.handle,
+)
 
 transactionRoutes.delete(
-  "/:id",
+  '/:id',
   verifyToken.handle,
-  deleteTransactionByIdController.handle
-);
+  deleteTransactionByIdController.handle,
+)
 transactionRoutes.put(
-  "/:id",
+  '/:id',
   verifyToken.handle,
-  updateTransactionByIdController.handle
-);
+  updateTransactionByIdController.handle,
+)
 
-export { transactionRoutes };
+export { transactionRoutes }

@@ -1,4 +1,4 @@
-import { prisma } from "../../../../prisma/client";
+import { prisma } from '../../../../prisma/client'
 
 export class GetUserMeUseCase {
   async execute(userId: string) {
@@ -14,6 +14,6 @@ export class GetUserMeUseCase {
         username: true,
         phone: true,
       },
-    });
+    })
   }
 }

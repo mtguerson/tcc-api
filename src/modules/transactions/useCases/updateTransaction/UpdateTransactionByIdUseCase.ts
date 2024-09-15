@@ -1,7 +1,7 @@
-import { CheckingAccount, CreditCard, Transaction } from "@prisma/client";
-import { AppError } from "../../../../errors/AppError";
-import { prisma } from "../../../../prisma/client";
-import { TransactionDTO } from "../../dtos/TransactionDTO";
+import { Transaction } from '@prisma/client'
+import { AppError } from '../../../../errors/AppError'
+import { prisma } from '../../../../prisma/client'
+import { TransactionDTO } from '../../dtos/TransactionDTO'
 
 export class UpdateTransactionByIdUseCase {
   async execute({
@@ -19,10 +19,10 @@ export class UpdateTransactionByIdUseCase {
       where: {
         id,
       },
-    });
+    })
 
     if (!transactionExists) {
-      throw new AppError("Transaction not found");
+      throw new AppError('Transaction not found')
     }
 
     if (checkingAccountId) {
@@ -30,10 +30,10 @@ export class UpdateTransactionByIdUseCase {
         where: {
           id: checkingAccountId,
         },
-      });
+      })
 
       if (!checkingAccount) {
-        throw new AppError("Checking account not found", 404);
+        throw new AppError('Checking account not found', 404)
       }
     }
 
@@ -42,10 +42,10 @@ export class UpdateTransactionByIdUseCase {
         where: {
           id: creditCardId,
         },
-      });
+      })
 
       if (!creditCard) {
-        throw new AppError("Credit card not found", 404);
+        throw new AppError('Credit card not found', 404)
       }
     }
 
@@ -63,8 +63,8 @@ export class UpdateTransactionByIdUseCase {
         categoryId,
         checkingAccountId,
       },
-    });
+    })
 
-    return transactionUpdated;
+    return transactionUpdated
   }
 }

@@ -1,5 +1,5 @@
 export interface TransactionListQueryParameters {
-  creditCardId?: string;
-  checkingAccountId?: string;
-  categoryId?: string;
+  creditCardId?: string
+  checkingAccountId?: string
+  categoryId?: string
 }

@@ -1,12 +1,12 @@
-import { Request, Response } from "express";
-import { UpdateUserUseCase } from "./UpdateUserUseCase";
+import { Request, Response } from 'express'
+import { UpdateUserUseCase } from './UpdateUserUseCase'
 
 export class UpdateUserController {
   async handle(req: Request, res: Response) {
-    const { name, email, password, phone, username } = req.body;
-    const { id } = req.params;
+    const { name, email, password, phone, username } = req.body
+    const { id } = req.params
 
-    const updateUserUseCase = new UpdateUserUseCase();
+    const updateUserUseCase = new UpdateUserUseCase()
 
     const result = await updateUserUseCase.execute(id, {
       name,
@@ -14,8 +14,8 @@ export class UpdateUserController {
       email,
       password,
       phone,
-    });
+    })
 
-    return res.status(200).json(result);
+    return res.status(200).json(result)
   }
 }

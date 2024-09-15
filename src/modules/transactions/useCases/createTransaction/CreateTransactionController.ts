@@ -1,12 +1,20 @@
-import { Request, Response } from "express";
-import { CreateTransactionUseCase } from "./CreateTransactioneUseCase";
+import { Request, Response } from 'express'
+import { CreateTransactionUseCase } from './CreateTransactioneUseCase'
 
 export class CreateTransactionController {
   async handle(request: Request, response: Response): Promise<Response> {
-    const { name, date, value, balanceAdjustment, type, creditCardId, categoryId, checkingAccountId } =
-      request.body;
+    const {
+      name,
+      date,
+      value,
+      balanceAdjustment,
+      type,
+      creditCardId,
+      categoryId,
+      checkingAccountId,
+    } = request.body
 
-    const createTransactionUseCase = new CreateTransactionUseCase();
+    const createTransactionUseCase = new CreateTransactionUseCase()
 
     const transaction = await createTransactionUseCase.execute({
       name,
@@ -17,8 +25,8 @@ export class CreateTransactionController {
       creditCardId,
       categoryId,
       checkingAccountId,
-    });
+    })
 
-    return response.status(201).json(transaction);
+    return response.status(201).json(transaction)
   }
 }

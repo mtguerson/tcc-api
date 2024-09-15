@@ -1,12 +1,12 @@
-import { Request, Response } from "express";
-import { UpdateCreditCardByIdUseCase } from "./UpdateCreditCardByIdUseCase";
+import { Request, Response } from 'express'
+import { UpdateCreditCardByIdUseCase } from './UpdateCreditCardByIdUseCase'
 
 export class UpdateCreditCardByIdController {
   async handle(req: Request, res: Response) {
-    const { id } = req.params;
-    const { userId, name, closingDate, invoice, lastDigits, limit } = req.body;
+    const { id } = req.params
+    const { userId, name, closingDate, invoice, lastDigits, limit } = req.body
 
-    const updateCreditCardByIdUseCase = new UpdateCreditCardByIdUseCase();
+    const updateCreditCardByIdUseCase = new UpdateCreditCardByIdUseCase()
 
     const result = await updateCreditCardByIdUseCase.execute({
       userId,
@@ -16,8 +16,8 @@ export class UpdateCreditCardByIdController {
       lastDigits,
       limit,
       name,
-    });
+    })
 
-    return res.status(200).json(result);
+    return res.status(200).json(result)
   }
 }

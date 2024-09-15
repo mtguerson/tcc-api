@@ -1,36 +1,35 @@
-import { Prisma } from "@prisma/client";
-import { AppError } from "../../../../errors/AppError";
-import { prisma } from "../../../../prisma/client";
-import { TransactionListQueryParameters } from "../../dtos/TransactionListQueryParameters";
+import { AppError } from '../../../../errors/AppError'
+import { prisma } from '../../../../prisma/client'
+import { TransactionListQueryParameters } from '../../dtos/TransactionListQueryParameters'
 
 export class ListAllTransactionsByUserIdUseCase {
   async execute({
     userId,
     query,
   }: {
-    userId: string;
-    query: TransactionListQueryParameters;
+    userId: string
+    query: TransactionListQueryParameters
   }) {
-    if (!userId) throw new AppError("User id is required", 400);
+    if (!userId) throw new AppError('User id is required', 400)
 
-    const filters = [];
+    const filters = []
 
     if (query?.categoryId) {
       filters.push({
         categoryId: query.categoryId,
-      });
+      })
     }
 
     if (query?.creditCardId) {
       filters.push({
         creditCardId: query.creditCardId,
-      });
+      })
     }
 
     if (query?.checkingAccountId) {
       filters.push({
         checkingAccountId: query.checkingAccountId,
-      });
+      })
     }
 
     const transactions = await prisma.transaction.findMany({
@@ -55,13 +54,13 @@ export class ListAllTransactionsByUserIdUseCase {
         creditCards: true,
       },
       orderBy: {
-        date: "desc",
+        date: 'desc',
       },
-    });
+    })
     if (!transactions.length) {
-      throw new AppError("Not found!", 404);
+      throw new AppError('Not found!', 404)
     }
 
-    return transactions;
+    return transactions
   }
 }

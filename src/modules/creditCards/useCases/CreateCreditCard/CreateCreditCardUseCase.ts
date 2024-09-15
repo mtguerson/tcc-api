@@ -1,7 +1,7 @@
-import { CreditCard } from "@prisma/client";
-import { AppError } from "../../../../errors/AppError";
-import { prisma } from "../../../../prisma/client";
-import { CreditCardDTO } from "../../dtos/CreditCardDTO";
+import { CreditCard } from '@prisma/client'
+import { AppError } from '../../../../errors/AppError'
+import { prisma } from '../../../../prisma/client'
+import { CreditCardDTO } from '../../dtos/CreditCardDTO'
 
 export class CreateCreditCardUseCase {
   async execute({
@@ -16,10 +16,10 @@ export class CreateCreditCardUseCase {
       where: {
         id: userId,
       },
-    });
+    })
 
     if (!userIdExists) {
-      throw new AppError("User not found");
+      throw new AppError('User not found')
     }
 
     const creditCardNameExists = await prisma.creditCard.findFirst({
@@ -27,10 +27,10 @@ export class CreateCreditCardUseCase {
         userId,
         name,
       },
-    });
+    })
 
     if (creditCardNameExists) {
-      throw new AppError("Credit card name already exists");
+      throw new AppError('Credit card name already exists')
     }
 
     const creditCardLastDigitsExists = await prisma.creditCard.findFirst({
@@ -38,10 +38,10 @@ export class CreateCreditCardUseCase {
         userId,
         lastDigits,
       },
-    });
+    })
 
     if (creditCardLastDigitsExists) {
-      throw new AppError("Credit card already registered");
+      throw new AppError('Credit card already registered')
     }
 
     const creditCard = await prisma.creditCard.create({
@@ -53,8 +53,8 @@ export class CreateCreditCardUseCase {
         lastDigits,
         limit,
       },
-    });
+    })
 
-    return creditCard;
+    return creditCard
   }
 }

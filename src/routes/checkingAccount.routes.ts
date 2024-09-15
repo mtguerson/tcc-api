@@ -1,39 +1,39 @@
-import { Router } from "express";
-import { CreateCheckingAccountController } from "../modules/checkingAccounts/useCases/createCheckingAccount/CreateCheckingAccountController";
-import { GetCheckingAccountByUserIdController } from "../modules/checkingAccounts/useCases/getCheckingAccountsByUserId/GetCheckingAccountByUserIdController";
-import { DeleteCheckingAccountByIdController } from "../modules/checkingAccounts/useCases/deleteCheckingAccountById/DeleteCheckingAccountByIdController";
-import { UpdateCheckingAccountByIdController } from "../modules/checkingAccounts/useCases/updateCheckingAccountById/UpdateCheckingAccountByIdController";
-import { VerifyToken } from "../middlewares/auth";
+import { Router } from 'express'
+import { CreateCheckingAccountController } from '../modules/checkingAccounts/useCases/createCheckingAccount/CreateCheckingAccountController'
+import { GetCheckingAccountByUserIdController } from '../modules/checkingAccounts/useCases/getCheckingAccountsByUserId/GetCheckingAccountByUserIdController'
+import { DeleteCheckingAccountByIdController } from '../modules/checkingAccounts/useCases/deleteCheckingAccountById/DeleteCheckingAccountByIdController'
+import { UpdateCheckingAccountByIdController } from '../modules/checkingAccounts/useCases/updateCheckingAccountById/UpdateCheckingAccountByIdController'
+import { VerifyToken } from '../middlewares/auth'
 
-const createCheckingAccountController = new CreateCheckingAccountController();
+const createCheckingAccountController = new CreateCheckingAccountController()
 const getCheckingAccountByUserIdController =
-  new GetCheckingAccountByUserIdController();
+  new GetCheckingAccountByUserIdController()
 const deleteCheckingAccountByIdController =
-  new DeleteCheckingAccountByIdController();
+  new DeleteCheckingAccountByIdController()
 const updateCheckingAccountByIdController =
-  new UpdateCheckingAccountByIdController();
-const verifyToken = new VerifyToken();
-const checkingAccountRoutes = Router();
+  new UpdateCheckingAccountByIdController()
+const verifyToken = new VerifyToken()
+const checkingAccountRoutes = Router()
 
 checkingAccountRoutes.post(
-  "/create",
+  '/create',
   verifyToken.handle,
-  createCheckingAccountController.handle
-);
+  createCheckingAccountController.handle,
+)
 checkingAccountRoutes.get(
-  "/:id",
+  '/:id',
   verifyToken.handle,
-  getCheckingAccountByUserIdController.handle
-);
+  getCheckingAccountByUserIdController.handle,
+)
 checkingAccountRoutes.delete(
-  "/:id",
+  '/:id',
   verifyToken.handle,
-  deleteCheckingAccountByIdController.handle
-);
+  deleteCheckingAccountByIdController.handle,
+)
 checkingAccountRoutes.put(
-  "/:id",
+  '/:id',
   verifyToken.handle,
-  updateCheckingAccountByIdController.handle
-);
+  updateCheckingAccountByIdController.handle,
+)
 
-export { checkingAccountRoutes };
+export { checkingAccountRoutes }

@@ -1,7 +1,7 @@
-import { CheckingAccount } from "@prisma/client";
-import { AppError } from "../../../../errors/AppError";
-import { prisma } from "../../../../prisma/client";
-import { CheckingAccountDTO } from "../../dtos/CheckingAccountDTO";
+import { CheckingAccount } from '@prisma/client'
+import { AppError } from '../../../../errors/AppError'
+import { prisma } from '../../../../prisma/client'
+import { CheckingAccountDTO } from '../../dtos/CheckingAccountDTO'
 
 export class CreateCheckingAccountUseCase {
   async execute({
@@ -17,10 +17,10 @@ export class CreateCheckingAccountUseCase {
       where: {
         id: userId,
       },
-    });
+    })
 
     if (!userIdExists) {
-      throw new AppError("User not found");
+      throw new AppError('User not found')
     }
 
     const checkingAccountNameExists = await prisma.checkingAccount.findFirst({
@@ -28,10 +28,10 @@ export class CreateCheckingAccountUseCase {
         userId,
         name,
       },
-    });
+    })
 
     if (checkingAccountNameExists) {
-      throw new AppError("Checking account name already exists");
+      throw new AppError('Checking account name already exists')
     }
 
     const checkingAccount = await prisma.checkingAccount.create({
@@ -44,8 +44,8 @@ export class CreateCheckingAccountUseCase {
         balance,
         maintenanceFee,
       },
-    });
+    })
 
-    return checkingAccount;
+    return checkingAccount
   }
 }
