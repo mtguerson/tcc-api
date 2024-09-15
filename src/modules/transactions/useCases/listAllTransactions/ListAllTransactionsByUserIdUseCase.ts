@@ -17,7 +17,7 @@ export class ListAllTransactionsByUserIdUseCase {
     if (query?.type) {
       filters.push({
         type: query.type,
-      });
+      })
     }
 
     if (query?.categoryId) {
@@ -47,11 +47,11 @@ export class ListAllTransactionsByUserIdUseCase {
           {
             AND: [
               { balanceAdjustment: true },
-              { name: "Criação de conta corrente" },
+              { name: 'Criação de conta corrente' },
             ],
           },
         ],
-      });
+      })
     }
 
     const transactions = await prisma.transaction.findMany({
