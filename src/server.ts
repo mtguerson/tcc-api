@@ -17,7 +17,9 @@ app.use(
 )
 
 app.use(express.json())
+
 app.use(routes)
+
 app.use((err: Error, request: Request, response: Response) => {
   if (err instanceof AppError) {
     return response.status(err.statusCode).json({
@@ -25,9 +27,14 @@ app.use((err: Error, request: Request, response: Response) => {
       message: err.message,
     })
   }
+
   return response.status(500).json({
     status: 'error',
     message: `Internal server error`,
     content: `${err.message}`,
   })
 })
+
+app.listen(process.env.PORT, () =>
+  console.log(`Server is running on port ${process.env.PORT} 🚀`),
+)
