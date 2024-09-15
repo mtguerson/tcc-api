@@ -7,6 +7,7 @@ import cors from 'cors'
 import swaggerSetup from './swagger/swaggerConfig'
 dotenv.config()
 
+<<<<<<< HEAD
 const app = express()
 swaggerSetup(app)
 
@@ -16,6 +17,16 @@ app.use(
     origin: ['https://tcc-front-psi.vercel.app', 'http://localhost:5173'], // Allow requests from this origin
   }),
 )
+=======
+const app = express();
+swaggerSetup(app);
+// Use the CORS middleware
+app.use(
+  cors({
+    origin: process.env.FRONT_END_URL,
+  })
+);
+>>>>>>> ccccf26d8ef33e5c3ebc22ba1c86b53fbdd44c52
 
 app.use(express.json())
 

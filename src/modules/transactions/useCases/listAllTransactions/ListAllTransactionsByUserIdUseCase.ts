@@ -14,6 +14,12 @@ export class ListAllTransactionsByUserIdUseCase {
 
     const filters = []
 
+    if (query?.type) {
+      filters.push({
+        type: query.type,
+      });
+    }
+
     if (query?.categoryId) {
       filters.push({
         categoryId: query.categoryId,
@@ -30,6 +36,22 @@ export class ListAllTransactionsByUserIdUseCase {
       filters.push({
         checkingAccountId: query.checkingAccountId,
       })
+    }
+
+    if (!query?.showLogs) {
+      filters.push({
+        OR: [
+          {
+            balanceAdjustment: false,
+          },
+          {
+            AND: [
+              { balanceAdjustment: true },
+              { name: "Criação de conta corrente" },
+            ],
+          },
+        ],
+      });
     }
 
     const transactions = await prisma.transaction.findMany({
