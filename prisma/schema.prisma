@@ -16,7 +16,7 @@ model User {
   password         String
   phone            String            @unique
   isAdmin          Boolean           @default(false) @map("is_admin")
-  token            String?           @default(uuid())
+  token            String?
   categories       Category[]
   checkingAccounts CheckingAccount[]
   creditCards      CreditCard[]

@@ -4,4 +4,5 @@ export interface UpdateUserDto {
   email?: string
   password?: string
   phone?: string
+  token?: string
 }

@@ -38,7 +38,7 @@ export class VerifyToken {
         return res.status(401).json({ message: 'Token invalid' })
       }
 
-      if (userInfo.isAdmin) {
+      if (!userInfo.isAdmin) {
         return res.status(401).json({ message: 'Unauthorized' })
       }
 

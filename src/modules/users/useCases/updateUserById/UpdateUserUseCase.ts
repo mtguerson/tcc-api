@@ -15,7 +15,7 @@ type UpdateUserResponse = Partial<
 export class UpdateUserUseCase {
   async execute(
     userId: string,
-    { name, username, email, password, phone }: UpdateUserDto,
+    { name, username, email, password, phone, token }: UpdateUserDto,
   ): Promise<UpdateUserResponse> {
     const user = await prisma.user.findUnique({
       where: { id: userId },
@@ -65,11 +65,13 @@ export class UpdateUserUseCase {
     const updatedUser = await prisma.user.update({
       where: { id: userId },
       data: {
+        ...user,
         name,
         username,
         email,
         password: hashedPassword,
         phone,
+        token,
       },
     })
 
@@ -81,7 +83,7 @@ export class UpdateUserUseCase {
       isAdmin: updatedUser.isAdmin,
     }
 
-    const token = jwt.sign(jwtUserInfo, `${process.env.JWT_SECRET}`, {
+    const tokenJwt = jwt.sign(jwtUserInfo, `${process.env.JWT_SECRET}`, {
       expiresIn: '1d',
     })
 
@@ -90,7 +92,7 @@ export class UpdateUserUseCase {
       name: updatedUser.name,
       username: updatedUser.username,
       phone: updatedUser.phone,
-      accessToken: token,
+      accessToken: tokenJwt,
     }
   }
 }

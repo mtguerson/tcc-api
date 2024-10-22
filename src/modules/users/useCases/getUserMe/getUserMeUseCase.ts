@@ -13,6 +13,7 @@ export class GetUserMeUseCase {
         isAdmin: true,
         username: true,
         phone: true,
+        token: true,
       },
     })
   }

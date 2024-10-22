@@ -1,10 +1,12 @@
+import express, { NextFunction, Request, Response } from 'express'
 import 'express-async-errors'
-import express, { Request, Response } from 'express'
-import { routes } from './routes'
-import { AppError } from './errors/AppError'
-import dotenv from 'dotenv'
 import cors from 'cors'
+import dotenv from 'dotenv'
+
+import { AppError } from './errors/AppError'
+import { routes } from './routes'
 import swaggerSetup from './swagger/swaggerConfig'
+
 dotenv.config()
 
 const app = express()
@@ -20,9 +22,10 @@ app.use(express.json())
 
 app.use(routes)
 
-app.use((err: Error, request: Request, response: Response) => {
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+app.use((err: Error, request: Request, response: Response, _: NextFunction) => {
   if (err instanceof AppError) {
-    return response.status(err.statusCode).json({
+    return response.status(err.statusCode ?? 400).json({
       status: 'error',
       message: err.message,
     })

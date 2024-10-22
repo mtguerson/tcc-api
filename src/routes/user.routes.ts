@@ -30,6 +30,6 @@ userRoutes.get(
   getUserByUsernameController.handle,
 )
 
-userRoutes.put('/:id', verifyToken.handle, updateUserController.handle)
+userRoutes.put('/', verifyToken.handle, updateUserController.handle)
 
 export { userRoutes }

@@ -4,6 +4,7 @@ import { checkingAccountRoutes } from './checkingAccount.routes'
 import { transactionRoutes } from './transaction.routes'
 import { creditCardRoutes } from './creditCard.routes'
 import { categoryRoutes } from './category.routes'
+import chatbotRoutes from './chatbot.routes'
 
 const routes = Router()
 
@@ -12,5 +13,6 @@ routes.use('/checkingAccounts', checkingAccountRoutes)
 routes.use('/transactions', transactionRoutes)
 routes.use('/creditCards', creditCardRoutes)
 routes.use('/categories', categoryRoutes)
+routes.use('/chat', chatbotRoutes)
 
 export { routes }
