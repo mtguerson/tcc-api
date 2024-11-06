@@ -51,12 +51,13 @@ class ProcessChildService {
     })
 
     // Captura erros no processo filho (stderr)
-    child.stderr.on('data', (data) => {
+    child.stderr.on('error', (data) => {
       console.error(`(${telegramToken}): ${data}`)
     })
 
     // Ouvir o evento de saída do processo filho
     child.on('exit', () => {
+      console.log(`Processo com token ${telegramToken} finalizado`)
       this.processes.delete(telegramToken)
     })
 
