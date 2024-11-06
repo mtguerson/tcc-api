@@ -14,7 +14,11 @@ class ProcessChildService {
   // Mapa para armazenar os processos filhos com seus tokens
   private processes: Map<string, ProcessChildInfo> = new Map()
 
-  public async startNewProcess(telegramToken: string, username: string) {
+  public async startNewProcess(
+    telegramToken: string,
+    username: string,
+    userToken: string,
+  ) {
     // Verifica se já existe um processo para este token
     if (this.processes.has(telegramToken)) {
       throw new AppError('Chatobt is already running', 400)
@@ -23,11 +27,11 @@ class ProcessChildService {
     // Inicia um novo processo filho
     const child = spawn(
       'node',
-
       [
-        path.join(__dirname, '../../chatbot/dist/bot.js'),
+        path.join(__dirname, '../chatbot/index.js'),
         telegramToken,
         username,
+        userToken,
       ],
       {
         detached: true,
