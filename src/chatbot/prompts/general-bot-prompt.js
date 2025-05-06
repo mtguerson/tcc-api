@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.generalBotToolsPrompt = exports.generalBotPrompt = void 0;
+exports.generalBotPrompt = generalBotPrompt;
+exports.generalBotToolsPrompt = generalBotToolsPrompt;
 function generalBotPrompt() {
     return [
         {
@@ -17,7 +18,6 @@ function generalBotPrompt() {
         },
     ];
 }
-exports.generalBotPrompt = generalBotPrompt;
 function generalBotToolsPrompt() {
     return [
         {
@@ -46,4 +46,3 @@ function generalBotToolsPrompt() {
         },
     ];
 }
-exports.generalBotToolsPrompt = generalBotToolsPrompt;

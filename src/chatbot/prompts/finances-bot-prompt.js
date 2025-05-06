@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.financesBotToolsPrompt = exports.financesBotPrompt = void 0;
+exports.financesBotPrompt = financesBotPrompt;
+exports.financesBotToolsPrompt = financesBotToolsPrompt;
 function financesBotPrompt({ checkingAccounts, categories, }) {
     return [
         {
@@ -31,7 +32,6 @@ function financesBotPrompt({ checkingAccounts, categories, }) {
         },
     ];
 }
-exports.financesBotPrompt = financesBotPrompt;
 function financesBotToolsPrompt() {
     return [
         {
@@ -73,4 +73,3 @@ function financesBotToolsPrompt() {
         },
     ];
 }
-exports.financesBotToolsPrompt = financesBotToolsPrompt;

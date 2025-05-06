@@ -2000,10 +2000,10 @@ graphemer@^1.4.0:
   resolved "https://registry.yarnpkg.com/graphemer/-/graphemer-1.4.0.tgz#fb2f1d55e0e3a1849aeffc90c4fa0dd53a0e66c6"
   integrity sha512-EtKwoO6kxCL9WO5xipiHTZlSzBm7WLT627TqC/uVRd0HKmq8NXyebnNYxDoBi7wt8eTWrUrKXCOVaFq9x1kgag==
 
-groq-sdk@^0.7.0:
-  version "0.7.0"
-  resolved "https://registry.yarnpkg.com/groq-sdk/-/groq-sdk-0.7.0.tgz#30ac2fa5073f9368e22c78309e5b6154741788eb"
-  integrity sha512-OgPqrRtti5MjEVclR8sgBHrhSkTLdFCmi47yrEF29uJZaiCkX3s7bXpnMhq8Lwoe1f4AwgC0qGOeHXpeSgu5lg==
+groq-sdk@^0.21.0:
+  version "0.21.0"
+  resolved "https://registry.yarnpkg.com/groq-sdk/-/groq-sdk-0.21.0.tgz#d135ed3b3d6571ab830589f76c48136fc473579e"
+  integrity sha512-SZg7oH/DsFvJllmdujNGZbfKUr2ATaU6urq0ZcnyObnmj6+nYM7WCGkyI2JMK+aWDzNiW6MwBNlSH722sHvtEQ==
   dependencies:
     "@types/node" "^18.11.18"
     "@types/node-fetch" "^2.6.4"

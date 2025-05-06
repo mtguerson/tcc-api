@@ -164,7 +164,6 @@ class ChatBot {
             const response = (_c = groqMessage.content) !== null && _c !== void 0 ? _c : '';
             const toolNeeded = groqMessage.tool_calls;
             if (toolNeeded) {
-                this.groqContext.chatHistory.push(groqMessage);
                 yield this.handleGroqCallFunction(toolNeeded, chatId);
                 return;
             }
@@ -184,6 +183,7 @@ class ChatBot {
                     ? 'deepseek-r1-distill-llama-70b'
                     : 'llama3-70b-8192',
                 tool_choice: this.groqContext.tools.length > 0 ? 'auto' : undefined,
+                temperature: 0,
             };
             const chatCompletion = yield this.GroqSender.chat.completions.create(params);
             return chatCompletion;

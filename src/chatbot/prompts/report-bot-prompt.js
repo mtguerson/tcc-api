@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.reportBotPrompt = void 0;
+exports.reportBotPrompt = reportBotPrompt;
 function reportBotPrompt({ checkingAccounts, categories, transactions, }) {
     const categoriesFormatted = categories
         .map((category) => `- ${category.name}`)
@@ -49,4 +49,3 @@ function reportBotPrompt({ checkingAccounts, categories, transactions, }) {
         },
     ];
 }
-exports.reportBotPrompt = reportBotPrompt;
